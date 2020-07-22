@@ -1,0 +1,78 @@
+{{> modals }}
+{{>navbar}}
+
+          <link rel="stylesheet" href="/css/styleee.css"/>
+<div class="row no-gutters jijo">
+
+  <div class="col-md-6 no-gutters">
+    <div class="leftside">
+
+      <div class=" barra2">
+                <div class="barra">
+                          <div class=" textoBarra">
+                              <div class="Perfil"></div>
+                              <div class="aaaa23"></div>
+                              <div style="float:right;" class="aaaa23 align-right"></div>
+                          </div>
+                  </div>
+        </div>
+        <div class="barra2">
+                  <div class="barra">
+                            <div class="textoBarra">
+                                <div class=" aaaa23"></div>
+                            </div>
+                    </div>
+          </div>
+        <article class="anuncioBox">
+                                <figure class="imagen2">
+                    <div class=" imagen">
+                        <a>
+                            <img src="/backgrounds/{{box2.filename}}">
+                        </a>
+                                                                                </div>
+                                    </figure>
+                                <header class="texto">
+                    <h1 itemprop="name" class="tituloAnuncio">{{box2.title}}</h1>
+                    <div class="descripcionAnuncio">{{box2.description}}</div>
+                </header>
+            </article>
+    </div>
+  </div>
+  <div class="col-md-6 no-gutters">
+    <div class="rightside">
+
+      <div class="barra2 form-group aeae2">
+        <!form action="/anuncio/{{box2.id}}/comment" method="post">
+          <div class="barra">
+                    <div class="textoBarra aeae">
+                        <div class="barra"> <textarea name="comentario" rows="6" cols="80" class="aeae23" id="message" placeholder="Escribi un comentario."></textarea>
+                          <input id="name" name="name" type="hidden" value="{{#if user}} {{user.name}} {{else}} Anonimo {{/if}}">
+                          <input id="id" name="id" type="hidden" value="{{box2.id}}">
+                        </div>
+                    </div>
+                <button type="submit" class="btn" id="send" >Comentar</button>
+            </div>
+        <!/form>
+
+        </div>
+      <div class="barra2 aeae1" >
+                <div class="barra">
+                          <div class="textoBarra">
+                              <div class="barra text-center"></div>
+                          </div>
+
+                  </div>
+      </div>
+
+      <div class="aaa" id="comentar">
+      </div>
+    <p id="{{box2.id}}"></p>
+    </div>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+              <script type="text/javascript" src="/js/chat.js"></script>

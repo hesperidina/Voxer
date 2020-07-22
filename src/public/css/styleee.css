@@ -1,0 +1,423 @@
+
+
+.leftside, .rightside {
+  height: 100vh;
+  overflow-y: auto;
+  width: 100%;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column;
+}
+
+.commentContent::selection {
+    background-color: rgba(29,29,32,0.99);
+}
+.btn {
+   padding: 1em 2.1em 1.1em;
+   border-radius: 3px;
+   margin: 8px 8px 8px 8px;
+   color: white;
+   background-color: white;
+   display: inline-block;
+   background: #323234;
+   -webkit-transition: 0.3s;
+   -moz-transition: 0.3s;
+   -o-transition: 0.3s;
+   transition: 0.3s;
+   font-family: sans-serif;
+   font-weight: 800;
+   font-size: .85em;
+   text-transform: uppercase;
+   text-align: center;
+   text-decoration: none;
+   -webkit-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+   -moz-box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+   box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
+   position: relative;
+}
+.btn:hover, .btn:focus {
+   opacity: 0.8;
+   background-color: #f6aaf9;
+   background: #f6aaf9;
+}
+
+button:focus { outline:0 !important; }
+
+.btn:active {
+   -webkit-transform: scale(0.90);
+   -moz-transform: scale(0.90);
+   -ms-transform: scale(0.90);
+   -o-transform: scale(0.90);
+   transform: scale(0.90);
+   outline:0 !important;
+}
+.btn.block {
+   display: block !important;
+   outline:0 !important;
+}
+.btn.circular {
+ border-radius: 50em !important;
+ outline:0 !important;
+}
+
+.leftside {
+  background: 	#232328		;
+    padding-top: 20px;
+}
+
+.rightside {
+  background: #1d1d20;
+}
+
+body {
+  font-size: 0.9rem;
+}
+
+.barra2 {
+    background:#3d3d3f;
+    margin: 4px 16px;
+    padding: 8px;
+    color: var(--text-secondary);
+    display: flex;
+    border-radius: 5px;
+    -webkit-box-shadow: 3px 3px 6px 0px rgba(0,0,0,0.3);
+    -moz-box-shadow: 3px 3px 6px 0px rgba(0,0,0,0.3);
+    box-shadow: 3px 3px 6px 0px rgba(0,0,0,0.3);
+}
+
+.barra {
+    flex-grow: 1;
+}
+
+input[type=text], select, textarea{
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  background: #1d1d20;
+  color: white;
+  border-color: #3d3d3f;
+  border-radius: 5px;
+  box-sizing: border-box;
+  resize: vertical;
+  -webkit-box-shadow: 0px 0px 0px 2px rgba(61,61,63,1);
+  -moz-box-shadow: 0px 0px 0px 2px rgba(61,61,63,1);
+  box-shadow: 0px 0px 0px 2px rgba(61,61,63,1);
+}
+
+input[type=text]:focus{
+  outline: 2px solid orange;     /* oranges! yey */
+}
+.textoBarra{
+    flex-basis: 100%;
+    display: flex;
+    align-items: center;
+}
+.Perfil {
+    margin-right: 12px;
+    display: flex;
+    align-items: center;
+}
+.aaaa23 {
+    font-weight: 600;
+    font-size: 14px;
+}
+.Perfil img {
+    width: 32px;
+    border-radius: 4px;
+}
+
+article.anuncioBox {
+    padding: 16px;
+}
+figure.imagen2 {
+    margin: 0;
+    float: left;
+    margin-right: 16px;
+    background: #3d3d3f;
+    border-radius: 4px;
+    padding: 5px;
+    -webkit-box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.4);
+    -moz-box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.4);
+    box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.4);
+    display: flex;
+    align-items: flex-start;
+
+    max-width: calc(50% - 16px);
+    margin-bottom: 16px;
+    width: 100%;
+    flex-wrap: wrap;
+}
+.texto {
+    color: #f5f4f4;
+}
+
+.imagen {
+    flex-basis: 100%;
+    display: flex;
+}
+
+header.texto h1 {
+    margin: 0;
+    margin-bottom: 16px;
+    margin-bottom: 10px;
+    font-size: 30px;
+    font-weight: 700;
+    color: #f5f4f4;
+    line-height: 105%;
+    word-break: break-word;
+}
+
+.descripcionAnuncio {
+    line-height: 1.7;
+    word-break: break-word;
+    margin-bottom: 16px;
+}
+figure.imagen2 img {
+
+    width: 100%;
+    min-width: 20.2vw;
+    height: 100%;
+    border-radius: 4px;
+}
+
+.btn-primary {
+  margin-top: 1vh;
+}
+.text-center {
+  text-align: center;
+  font-size: 20px;
+}
+
+.tituloAnuncio {
+  font-family: Calibri, TimesNewRoman;
+
+}
+
+.aeae {
+  padding: 2px;
+}
+
+.aeae1 {
+  background-color: #323233;
+  padding: 2px;
+  border-radius: 0px;
+  -webkit-box-shadow: 0px 0px 0px 3px rgba(61,61,63,0);
+  -moz-box-shadow: 0px 0px 0px 3px rgba(61,61,63,0);
+  box-shadow: 0px 0px 0px 3px rgba(61,61,63,0);
+}
+
+.aeae2 {
+  margin-top: 20px;
+  background-color: #1d1d20;
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
+-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
+box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
+}
+
+
+.comment {
+    flex-basis: 100%;
+    display: flex;
+    align-items: flex-start;
+    border-radius: 5px;
+    background: #323234;
+    padding: 12px;
+    margin-bottom: 2px;
+}
+
+.commentAvatar {
+    margin-right: 12px;
+    border-radius: 10px;
+}
+
+.commentBody {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.commentMetadata {
+    flex-basis: 100%;
+    display: flex;
+    justify-content: space-between;
+
+}
+
+
+
+span.author {
+    font-weight: bolder;
+    font-size: 14px;
+    color: #e1e1e1;
+  font-family: Arial, TimesNewRoman;
+    margin-right: 8px;
+    display: flex;
+    align-items: center;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+
+.commentContent {
+  word-break: break-word;
+  color: #e1e1e1;
+  font-weight: 450;
+}
+
+.commentList {
+    margin: 16px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.avatarColoryellow {
+    background: #ebc310;
+    width: 44px;
+    height: 44px;
+    border-radius: 5px;
+}
+.avatarColorgreen {
+    background: #4aa813;
+    width: 44px;
+    height: 44px;
+    border-radius: 5px;
+}
+.avatarColorred {
+    background: #c43718;
+    width: 44px;
+    height: 44px;
+    border-radius: 5px;
+}
+.avatarColorblue {
+    background: #1857c4;
+    width: 44px;
+    height: 44px;
+    border-radius: 5px;
+}
+.avatarColorBlack {
+    background: #242323;
+    width: 44px;
+    height: 44px;
+    border-radius: 5px;
+}
+.avatarColorWhite {
+    background: #f5f2f2;
+    width: 44px;
+    height: 44px;
+    border-radius: 5px;
+}
+.avatarColorMulti {
+    width: 44px;
+    height: 44px;
+    background: linear-gradient(#fdcd3b 25%, #136699 25%, #136699 50%, #3d9932 50%, #3d9932 75%, #ca2b00 75%, #ca2b00 100%);
+    border-radius: 5px;
+  }
+  .avatarColorInvertido {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(#0232c4 25%, #ec9966 25%, #ec9966 50%, #c266cd 50%, #c266cd 75%, #35d4ff 75%, #35d4ff 100%);
+      border-radius: 5px;
+    }
+
+    ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #3d3d3f;
+  font-weight: 500;
+}
+
+
+
+    @media (hover: none) and (pointer: coarse)
+     {
+       .jijo {
+         flex-wrap: wrap;
+         display: block;
+        height: calc(100vh - 50px);
+          flex-flow: row;
+       }
+
+       .leftside {
+         padding-top: 10px;
+         padding-bottom: 30px;
+         flex-basis: 100vw;
+         height: 100vh;
+         width: 100vw;
+         height: auto;
+         position: static;
+       }
+
+       .rightside {
+        flex-grow: 1;
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        flex-basis: 100%;
+    }
+
+    .aeae23 {
+      height: 44px;
+    }
+    .avatarColoryellow {
+        width: 88px;
+        height: 88px;
+            border-radius: 10px;
+    }
+    .avatarColorgreen {
+        width: 88px;
+        height: 88px;
+            border-radius: 10px;
+    }
+    .avatarColorred {
+        width: 88px;
+        height: 88px;
+            border-radius: 10px;
+    }
+    .avatarColorblue {
+        width: 88px;
+        height: 88px;
+        border-radius: 10px;
+    }
+    .avatarColorBlack {
+        width: 88px;
+        height: 88px;
+        border-radius: 10px;
+    }
+    .avatarColorWhite {
+        width: 88px;
+        height: 88px;
+        border-radius: 10px;
+    }
+    .avatarColorMulti {
+        width: 88px;
+        height: 88px;
+        border-radius: 10px;
+      }
+      .avatarColorInvertido {
+          width: 88px;
+          border-radius: 10px;
+          height: 88px;
+        }
+
+        span.author {
+            font-size: 28px;
+            align-items: center;
+        }
+
+        .comment {
+            padding: 32px;
+            margin-bottom: 4px;
+        }
+        .commentContent {
+          font-size: 26px;
+          word-break: break-word;
+        }
+
+        header.texto h1 {
+            font-size: 42px;
+            font-weight: 600;
+        }
+        .descripcionAnuncio {
+          font-size: 0.9rem;
+        }
+     }

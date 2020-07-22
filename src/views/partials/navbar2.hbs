@@ -1,0 +1,22 @@
+
+
+          <header>
+            <div class="container">
+              <h1 class="logo"></h1>
+              <a href="/"><img src="/resources/logo.png" alt="" href="#" id="venditiologo"></a>
+              <img src="/resources/barrablanca.png" alt="" href="#" id="bar1">
+              <img src="/resources/barrablanca.png" alt="" href="#" id="bar2">
+              <nav>
+                <ul>
+                  {{#if user}}
+                  <li><a id="ingresar" href="/users/logout">Cerrar sesion</a></li>
+                  <li><a id="ingresar" href="/anuncios/user">Mis anuncios</a></li>
+                  {{else}}
+                  <li><a href="#" id="ingresar" data-toggle="modal" data-target="#login">Ingresar</a></li>
+                  {{/if}}
+                  <li><a href="#" id="venta" data-toggle="modal" data-target="#myModal">Vender</a></li>
+
+                </ul>
+              </nav>
+            </div>
+          </header>

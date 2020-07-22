@@ -1,0 +1,407 @@
+<link rel="stylesheet" href="/css/style.css"/>
+
+  <nav class="navbar">
+    <ul class="navbar-nav">
+      <li class="logo">
+        <a href="/" class="nav-link">
+          <span class="link-text logo-text">voxer</span>
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fad"
+            data-icon="angle-double-right"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            class="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x"
+          >
+            <g class="fa-group">
+              <i class="fas fa-angle-right"></i>
+            </g>
+          </svg>
+        </a>
+      </li>
+      {{#if user}}
+      <li class="nav-item">
+        <a href="/users/logout" class="nav-link" >
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fad"
+            data-icon="space-station-moon-alt"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x"
+          >
+          <g class="fa-group">
+            <i class="fas fas1  fa-user-times"></i>
+
+
+
+
+          </g>
+          </svg>
+
+          <span class="link-text">Cerrar sesion</span>
+        </a>
+      </li>
+      {{else}}
+      <li class="nav-item">
+        <a href="#" class="nav-link" id="ingresar" data-toggle="modal" data-target="#login">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fad"
+            data-icon="cat"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="svg-inline--fa fa-cat fa-w-16 fa-9x"
+          >
+          <g class="fa-group">
+            <i class="fas fas1 fa-user"></i>
+          </g>
+          </svg>
+          <span class="link-text">Ingresar</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link" id="registro" data-toggle="modal" data-target="#register">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fad"
+            data-icon="alien-monster"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 576 512"
+            class="svg-inline--fa fa-alien-monster fa-w-18 fa-9x"
+          >
+          <g class="fa-group">
+            <i class="fas fas1 fa-user-plus"></i>
+
+
+          </g>
+          </svg>
+          <span class="link-text">Registrarse</span>
+        </a>
+      </li>
+      {{/if}}
+      <li class="nav-item">
+        <a href="#" class="nav-link" id="venta" data-toggle="modal" data-target="#myModal">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fad"
+            data-icon="space-station-moon-alt"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x"
+          >
+          <g class="fa-group">
+            <i class="fas fas1 fa-plus"></i>
+
+
+
+
+          </g>
+          </svg>
+
+          <span class="link-text">Crear Anuncio</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="/" class="nav-link docutector">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fad"
+            data-icon="space-station-moon-alt"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 512 512"
+            class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x"
+          >
+          <g class="fa-group">
+            <i class="fas fas1 fa-home"></i>
+
+
+
+
+          </g>
+          </svg>
+
+          <span class="link-text">Crear Anuncio</span>
+        </a>
+      </li>
+
+
+      <li class="nav-item" id="themeButton">
+
+      </li>
+    </ul>
+  </nav>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- Modals -->
+  <div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        {{#if user}}
+        <div class="modal-header">
+          <h3 class="modal-title">¿Que vas a vender {{user.name}}?</h3>
+        </div>
+        {{else}}
+        <div class="modal-header">
+          <h3 class="modal-title">¿Que vas a vender?</h3>
+
+        </div>
+        {{/if}}
+
+
+
+        <div class="card-header">
+          <form action="/publicarAnuncio" method="post" enctype="multipart/form-data">
+            <div>
+              <input type="text" name="title" class="form-control tituloDeAnuncio" minlength="0" maxlength="50" placeholder="Inserte un titulo" autofocus>
+              <input type="number" name="price" min="0" max="10000000" step="0.1" class="form-control precio" placeholder="Precio">
+              <!-- File input field -->
+              <input class="distancia" type="file" id="file" name="imgUrl" onchange="return fileValidation()"/>
+
+              <!-- Image preview -->
+              <div class="distancia" id="imagePreview"></div>
+            </div>
+
+            <div class="form-group">
+              <textarea name="description" class="form-control" placeholder="Describe tu anuncio"></textarea>
+            </div>
+            <div class="form-group">
+              <input type="text" name="contact" class="form-control contacto" placeholder="Contacto (Un numero, una red social, etc)">
+              <select class="form-control contacto" name="province">
+                <option value="Buenos Aires">Buenos Aires</option>
+                <option value="CABA">CABA</option>
+                <option value="Catamarca">Catamarca‎</option>
+                <option value="Chaco" >Chaco‎</option>
+                <option value="Chubut" >Chubut</option>
+                <option value="Córdoba" >Córdoba</option>
+                <option value="Corrientes" >Corrientes‎</option>
+                <option value="Entre Ríos">Entre Ríos‎</option>
+                <option value="Formosa">Formosa‎</option>
+                <option value="Jujuy" >Jujuy</option>
+                <option value="La Pampa">La Pampa‎</option>
+                <option value="La Rioja">La Rioja</option>
+                <option value="Mendoza">Mendoza</option>
+                <option value="Misiones">Misiones</option>
+                <option value="Neuquén">Neuquén‎</option>
+                <option value="Río Negro">Río Negro‎</option>
+                <option value="Salta">Salta‎</option>
+                <option value="San Juan">San Juan</option>
+                <option value="San Luis">San Luis</option>
+                <option value="Santa Cruz">Santa Cruz</option>
+                <option value="Santa Fe" >Santa Fe‎</option>
+                <option value="Santiago del Estero">Santiago del Estero</option>
+                <option value="Tierra del Fuego" >Tierra del Fuego</option>
+                <option value="Tucumán">Tucumán‎</option>
+              </select>
+            </div>
+
+
+            <div class="form-group">
+              <button class="btn btn-primary btn-block" type="submit">Crear anuncio</button>
+
+            </div>
+          </form>
+        </div>
+        {{#if user}}
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+        {{else}}
+        <div class="modal-footer">
+        <h6>¿Nuevo en venditio? <a href="/users/signup">registrate aca!         </a></h6> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+        {{/if}}
+      </div>
+
+    </div>
+  </div>
+
+
+  <div id="login" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Ingresar</h3>
+
+        </div>
+        <form action="/users/signin" method="POST">
+
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email" value={{email}} >
+
+
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Contraseña" >
+
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <h6>¿Nuevo en venditio? <a href="#" data-toggle="modal" data-target="#register">registrate aca!         </a></h6> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="register" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title">Registro</h3>
+
+        </div>
+        <form action="/" method="POST">
+          <div class="form-group">
+            <input type="text" class="form-control" name="name" placeholder="Nombre de usuario" value={{name}} >
+
+          </div>
+          <div class="form-group">
+            <input type="email" class="form-control" name="email" placeholder="Email" value={{email}} >
+
+
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="password" placeholder="Contraseña" >
+
+          </div>
+          <div class="form-group">
+            <input type="password" class="form-control" name="confirmPassword" placeholder="Confirmar Contraseña" >
+
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <style>
+    .distancia {
+      padding: 2%;
+    }
+    .distancia img {
+      max-width: 100%;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .tituloDeAnuncio {
+      max-width: 60%;
+      float:left;
+      margin-right: 5%;
+
+    }
+    .precio {
+      max-width: 30%;
+      float:left;
+      padding-left: 5%;
+
+    }
+  }
+  .contacto {
+    max-width: 100%;
+    float:left;
+    padding-left: 5%;
+
+  }
+
+  </style>
+
+<script type="text/javascript">
+function fileValidation(){
+var fileInput = document.getElementById('file');
+var filePath = fileInput.value;
+var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+if(!allowedExtensions.exec(filePath)){
+    alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+    fileInput.value = '';
+    return false;
+}else{
+    //Image preview
+    if (fileInput.files && fileInput.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('imagePreview').innerHTML = '<img src="'+e.target.result+'"/>';
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
+}
+
+
+</script>
