@@ -42,17 +42,18 @@
     <div class="rightside">
 
       <div class="barra2 form-group aeae2">
-        <!form action="/anuncio/{{box2.id}}/comment" method="post">
+        <form action="/anuncio/{{box2.id}}/comment" method="post">
           <div class="barra">
                     <div class="textoBarra aeae">
                         <div class="barra"> <textarea name="comentario" rows="6" cols="80" class="aeae23" id="message" placeholder="Escribi un comentario."></textarea>
                           <input id="name" name="name" type="hidden" value="{{#if user}} {{user.name}} {{else}} Anonimo {{/if}}">
                           <input id="id" name="id" type="hidden" value="{{box2.id}}">
+                          <input id="image_id" name="image_id" type="hidden" value="{{box2.id}}">
                         </div>
                     </div>
                 <button type="submit" class="btn" id="send" >Comentar</button>
             </div>
-        <!/form>
+        </form>
 
         </div>
       <div class="barra2 aeae1" >

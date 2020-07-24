@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const box = require("../models/box");
+const box = require("../models/Box");
 const users = require("../models/users");
 const comment = require("../models/comment");
 const multer = require("multer");
@@ -106,14 +106,18 @@ router.delete("/delete/:id", async (req, res) => {
   res.redirect("/");
 });
 
-router.post("/anuncio/:id/comment", (req, res) =>{
-//  const { image_id, name, comentario, timestamp}= req.body;
-//  const newComment = new Comment({ image_id, name, comentario, timestamp});
-//  const newComment = new comment(req.body);
+router.post("/anuncio/:id/comment", async(req, res) =>{
+  console.log(req.body)
+  const { image_id, name, comentario, timestamp}= req.body;
+  const newComment = new comment();
+  newComment.image_id = image_id
+  newComment.name = name
+  newComment.comentario = comentario
+  newComment.timestamp = timestamp
   console.log(req.body);
   res.send({ test : "comentario" });
-  //await newComment.save();
-  //res.redirect("/");
+  await newComment.save();
+  res.redirect("/");
 });
 
 module.exports = router;
