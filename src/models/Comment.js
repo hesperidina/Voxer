@@ -6,6 +6,6 @@ const CommentSchema = new Schema({
   image_id: { type: String },
   name: { type: String },
   comentario: { type: String },
-  timestamp: { type: Date, default: Date.now }
+  date: { type: Date, default: Date.now},
 });
-module.export = mongoose.model("Comment", CommentSchema);
+module.exports = mongoose.model("Comment", CommentSchema);

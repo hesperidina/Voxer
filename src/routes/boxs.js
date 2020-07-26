@@ -75,7 +75,8 @@ router.get("/anuncios/user", async (req, res) =>{
 router.get("/anuncio/:id",async (req, res) => {
   try {
     const box2 = await box.findById(req.params.id);
-    res.render("anuncios/viewBox", { box2 });
+    const comment2 = await comment.find({ image_id: box2._id})
+    res.render("anuncios/viewBox", { box2, comment2 });
 }
 catch(box1) {
     res.render("anuncios/viewBox", { box1 });
@@ -108,16 +109,22 @@ router.delete("/delete/:id", async (req, res) => {
 
 router.post("/anuncio/:id/comment", async(req, res) =>{
   console.log(req.body)
-  const { image_id, name, comentario, timestamp}= req.body;
+  const { image_id, name, comentario, date}= req.body;
   const newComment = new comment();
   newComment.image_id = image_id
   newComment.name = name
   newComment.comentario = comentario
-  newComment.timestamp = timestamp
-  console.log(req.body);
-  res.send({ test : "comentario" });
-  await newComment.save();
-  res.redirect("/");
+  newComment.date = date
+  const box2 = await box.findById(req.params.id);
+  if (box2) {
+   const newCommentt = new comment(req.body);
+   const { image_id, name, comentario, date}= req.body;
+    newComment.image_id = image_id
+    console.log(newCommentt)
+    await newCommentt.save();
+    res.redirect("/anuncio/" + image_id);
+  }
+
 });
 
 module.exports = router;
