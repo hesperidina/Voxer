@@ -72,7 +72,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 //Server init
 const server = app.listen(app.get("port"), () => {
-  console.log("Puerto: ", app.get("port"))
+  console.log("Puerto: ", app.get("port"));
+  console.log('Node version is: ' + process.version);
+
 });
 const io = SocketIO(server);
 //SocketIO

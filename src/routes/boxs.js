@@ -77,6 +77,9 @@ router.get("/anuncios/user", async (req, res) =>{
 });
 
 router.get("/anuncio/:id",async (req, res) => {
+  const forwarded = req.headers['x-real-ip']
+const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
+console.log(ip);
   try {
     const box2 = await box.findById(req.params.id);
     const filteredComment = await comment.find({image_id: req.params.id}).sort({date: "desc", });

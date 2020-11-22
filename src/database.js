@@ -3,6 +3,7 @@ mongoose.connect("mongodb+srv://Hesperidina:bigotes11@cluster0.u24ku.mongodb.net
   useCreateIndex: true,
   useNewUrlParser: true,
   useFindAndModify: false,
+  useUnifiedTopology: true,
 })
 
 .then(db => console.log("DB Conectado"))
