@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.connect("mongodb+srv://Hesperidina:bigotes11@cluster0.u24ku.mongodb.net/voxer?retryWrites=true&w=majority", {
+mongoose.connect("mongodb+srv://.net/voxer?retryWrites=true&w=majority", {
   useCreateIndex: true,
   useNewUrlParser: true,
   useFindAndModify: false,
