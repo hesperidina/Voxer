@@ -3,6 +3,9 @@
 	"version": "1.0.0",
 	"description": "voxer",
 	"main": "index.js",
+	"engines": {
+"node": "14.x.x"
+},
 	"scripts": {
 		"start": "node ./server/index.js",
 		"startDev": "nodemon ./server/index.js"
