@@ -1,0 +1,254 @@
+
+
+<!Llamo al CSS>
+
+          <link rel="stylesheet" href="/css/grid.css"/>
+
+
+<!Cajas>
+
+    {{> navbar }}
+
+<!-- Modals -->
+<div id="myModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      {{#if user}}
+      <div class="modal-header">
+        <h3 class="modal-title">Crea tu vox, {{user.name}}!</h3>
+      </div>
+      {{else}}
+      <div class="modal-header">
+        <h3 class="modal-title">Crea tu vox!</h3>
+
+      </div>
+      {{/if}}
+
+
+
+      <div class="card-header">
+        <form action="publicarAnuncio" method="post" enctype="multipart/form-data">
+          <div>
+            <input type="text" name="title" class="form-control tituloDeAnuncio" placeholder="Insertá un titulo" autofocus>
+            <!-- File input field -->
+            <input class="distancia" type="file" id="file" name="imgUrl" onchange="return fileValidation()"/>
+
+            <!-- Image preview -->
+            <div class="distancia" id="imagePreview"></div>
+          </div>
+
+          <div class="form-group">
+            <textarea name="description" class="form-control" placeholder="Describí tu vox"></textarea>
+          </div>
+          <div class="form-group">
+            <select class="form-control contacto" name="category">
+              <option value="Uff">/UFF/</option>
+              <option value="Pol">/POL/</option>
+              <option value="Gnr">/GNR/</option>
+            </select>
+          </div>
+
+
+          <div class="form-group">
+            <button class="btn btn-primary btn-block" type="submit">Crear vox</button>
+
+          </div>
+        </form>
+      </div>
+      {{#if user}}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+      {{else}}
+      <div class="modal-footer">
+      <h6>¿Nuevo en venditio? <a href="/users/signup">registrate aca!         </a></h6> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+      {{/if}}
+    </div>
+
+  </div>
+</div>
+
+
+<div id="login" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Ingresar</h3>
+
+      </div>
+      <form action="/users/signin" method="POST">
+
+        <div class="form-group">
+          <input type="email" class="form-control" name="email" placeholder="Email" value={{email}} >
+
+
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" name="password" placeholder="Contraseña" >
+
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <h6>¿Nuevo en venditio? <a href="#" data-toggle="modal" data-target="#register">registrate aca!         </a></h6> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="register" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Registro</h3>
+
+      </div>
+      <form action="/users/signup" method="POST">
+        <div class="form-group">
+          <input type="text" class="form-control" name="name" placeholder="Nombre de usuario" value={{name}} >
+
+        </div>
+        <div class="form-group">
+          <input type="email" class="form-control" name="email" placeholder="Email" value={{email}} >
+
+
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" name="password" placeholder="Contraseña" >
+
+        </div>
+        <div class="form-group">
+          <input type="password" class="form-control" name="confirmPassword" placeholder="Confirmar Contraseña" >
+
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+        </div>
+      </form>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+    <h2 class="relleno">
+            <div id=one></div>
+    </h2>
+    <main class="jijo">
+
+
+      <a href="/about" class=box id=inicio><div>¿Que es venditiō?</div></a>
+      {{#each boxs}}
+      <a href="#" class="box" id="jijo{{_id}}" > <div class="row-fluid">
+
+        <div class="titulo">{{title}}</div></div></a>
+
+      <style media="screen">
+        #jijo{{_id}} {
+          background-image: url("/backgrounds/{{filename}}");
+        }
+
+      </style>
+        {{else}}
+        <div class="card-body">
+          <p>No tenes ningun anuncio.</p>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+        </div>
+        {{/each}}
+
+
+
+      <style>
+      .BOTON {
+        color: white;
+      }
+      .titulo {
+        color: white;
+      }
+      .BOTON:hover {
+        color: white;
+      }
+
+      </style>
+      <style media="screen">
+        .linq {
+      color: black;
+    }
+      </style>
+
+      <!ESTILOS>
+      <style>
+        .distancia {
+          padding: 2%;
+        }
+        .distancia img {
+          max-width: 100%;
+          margin-left: auto;
+          margin-right: auto;
+        }
+        .tituloDeAnuncio {
+          max-width: 60%;
+          float:left;
+          margin-right: 5%;
+
+        }
+        .precio {
+          max-width: 30%;
+          float:left;
+          padding-left: 5%;
+
+        }
+      }
+      .contacto {
+        max-width: 100%;
+        float:left;
+        padding-left: 5%;
+
+      }
+
+      </style>
+
+<script type="text/javascript">
+function fileValidation(){
+    var fileInput = document.getElementById('file');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+    if(!allowedExtensions.exec(filePath)){
+        alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+        fileInput.value = '';
+        return false;
+    }else{
+        //Image preview
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imagePreview').innerHTML = '<img src="'+e.target.result+'"/>';
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+}
+
+
+</script>

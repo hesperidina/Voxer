@@ -1,0 +1,54 @@
+          <link rel="stylesheet" href="/css/grid.css"/>
+    {{> navbar }}
+    <h2 class="relleno">
+            <div id=one></div>
+    </h2>
+    <main class="jijo">
+
+
+      <a href="/about" class=box id=inicio><div>Ayuda y reglas</div></a>
+      {{#each boxs}}
+      <a href="/anuncio/{{_id}}" class="box" id="jijo{{_id}}" > <div class="row-fluid">
+        <div class="division">
+          <div class="titulo row-fluid">{{title}}</div>
+        </div> </div></a>
+      <style media="screen">
+        #jijo{{_id}} {
+            background-image: linear-gradient(0deg, rgba(0,0,0,0.1) 35%, rgba(255,255,255,0) 100%), url("/backgrounds/{{filename}}");
+            background-repeat: no-repeat;
+        }
+
+      </style>
+        {{else}}
+        <div class="card-body">
+          <p>No hay anuncios con este nombre.</p>
+          <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        Podes crear un anuncio haciendo click <a href="#" class="linq" data-toggle="modal" data-target="#myModal"><strong>aca!</a></strong>
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+        </div>
+        {{/each}}
+
+
+
+      <style>
+      .BOTON {
+        color: white;
+      }
+      .titulo {
+        color: white;
+      }
+      .BOTON:hover {
+        color: white;
+      }
+
+      </style>
+      <style media="screen">
+        .linq {
+      color: black;
+    }
+      </style>

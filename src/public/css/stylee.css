@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
+
+@font-face {
+  font-family: 'CoolveticaRg-Regular';
+  src: url('font/CoolveticaRg-Regular.svg#CoolveticaRg-Regular') format('svg'),
+       url('font/CoolveticaRg-Regular.ttf') format('truetype'),
+       url('font/CoolveticaRg-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+	margin: 0;
+	background: #651c32;
+	font-family: 'Work Sans', sans-serif;
+	font-weight: 800;
+}
+
+.container {
+	width: 100%;
+	margin: 0 auto;
+}
+
+header {
+  background: #651c32;  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.45); height: 8%; padding-top: 3px;
+  position: fixed;
+  top:0;
+  z-index: 1000;
+  width: 100%
+}
+
+header::after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.logo {
+  float: left;
+  padding: 10px 0;
+}
+
+nav {
+  float: right;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+nav li {
+  display: inline-block;
+  margin-left: 10px;
+  padding-top: 15px;
+
+  position: relative;
+top: -5px; right: -75px;
+}
+
+nav a {
+  color: #444;
+  text-decoration: none;
+  font-size: 1.4em;
+}
+
+nav a:hover {
+  color: #651c32;
+}
+
+#ingresar::before {
+  content: '';
+  color: #651c32;
+  display: block;
+  height: 20%;
+  background-color: #fff;
+
+  position: absolute;
+  top: 0%;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+#ingresar:hover::before {
+  width: 100%;
+}
+#venta::before {
+  content: '';
+  color: #651c32;
+  display: block;
+  height: 20%;
+  background-color: #fff;
+
+  position: absolute;
+  top: 0%;
+  width: 0%;
+
+  transition: all ease-in-out 250ms;
+}
+
+#venta {
+  text-decoration: none;
+}
+
+#ingresar {
+  text-decoration: none;
+}
+
+#venta:hover::before {
+  width: 100%;
+}
+nav ul li a {
+  font-size: 120%;
+
+  font-family: arial;
+  font-weight: 700;
+  color: #fff;
+  z-index: 100;
+  padding-top: 0px;
+
+
+}
+nav ul li a:hover {
+  font-size: 120%;
+  font-style: bold;
+  font-family: arial;
+  color: #fff;
+  z-index: 10000000;
+}
+
+ input {border: none;
+border-color: transparent; border: solid 1px #999999; padding: 0px; border-radius: 7px; font-size: 5px;
+ padding-left: 1.5em; width: 22em; color: #651c32; font-weight: 500; outline: none;
+  background-image: url("Lupa.png"); position: left; background-size: 1.3em; background-repeat: no-repeat;
+background-position: left;}
+
+#venditio {
+  font-family: 'CoolveticaRg-Regular';
+  font-size: 175%;
+  color: white;
+
+    position: absolute;
+    top: -0.35em;
+    right: 1.40em;
+}
+#bar1 {
+  position: absolute;
+  top: 20%;
+  right: 1.5%;
+  height: 60%;
+}
+#bar2 {
+  position: absolute;
+  top: 20%;
+  right: 7.5%;
+  height: 60%;
+}
+#venditiologo {
+
+    position: absolute;
+    top: 30%;
+    right: 46.4%;
+    width: 8.2%; height: 109%;
+}

@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
+
+@font-face {
+  font-family: 'CoolveticaRg-Regular';
+  src: url('/font/CoolveticaRg-Regular.svg#CoolveticaRg-Regular') format('svg'),
+       url('/font/CoolveticaRg-Regular.ttf') format('truetype'),
+       url('/font/CoolveticaRg-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+body  { background-image: url("/resources/backgroundlogin.png");
+background-color: white;
+background-size:auto;
+background-position:top;
+
+}
+
+input {
+  display: block;
+  height: 50px;
+  width: 30%;
+  margin: 0 0;
+  border: none;
+}
+input::placeholder {
+  -webkit-transform: translateY(0px);
+  transform: translateY(0px);
+  -webkit-transition: .5s;
+  transition: .5s;
+}
+input:hover, input:focus, input:active:focus {
+  color: #651c32;
+  font-weight: 600;
+  outline: none;
+  border-bottom: 3px solid #651c32;
+}
+input:hover::placeholder, input:focus::placeholder, input:active:focus::placeholder {
+  color: #651c32;
+  position: relative;
+  -webkit-transform: translateY(-20px);
+  transform: translateY(-20px);
+  font-weight: 600;
+}
+
+#venditio2 {
+  position: absolute;
+  top: 10%;
+  right: 50%;
+  font-family: 'CoolveticaRg-Regular';
+  font-size: 250%;
+  color: #651c32;
+}
+
+#usuario  {
+  position: absolute;
+  top: 30%;
+  right: 40%;
+}
+#contraseña  {
+  position: absolute;
+  top: 40%;
+  right: 40%;
+}
+#email  {
+  position: absolute;
+  top: 20%;
+  right: 40%;
+}
+#venditio2  {
+  position: absolute;
+  top: 10%;
+  right: 40%;
+}
+#button  {
+  position: absolute;
+  top: 50%;
+  right: 60%;
+  width: 10%;
+  height: 5%;
+}
+#button2  {
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  width: 10%;
+  height: 5%;
+}
+#button3  {
+  position: absolute;
+  top: 50%;
+  right: 40%;
+  width: 10%;
+  height: 5%;
+}
+.email,
+.pwd, .usuario {
+  position: relative;
+  z-index: 1;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding-left: 20px;
+  font-family: 'Open Sans', sans-serif;
+  text-transform: uppercase;
+  color: ##212529;
+  font-weight: lighter;
+  -webkit-transition: .5s;
+  transition: .5s;
+}
