@@ -1,4 +1,10 @@
+
 <link rel="stylesheet" href="/css/style.css"/>
+<a class="float" id="navbardesp" ><i class="fa fa-plus my-float"></i></a>
+
+<div class="fademe" onclick="closeNav()"></div>
+
+
 
   <nav class="navbar">
     <ul class="navbar-nav">
@@ -22,7 +28,7 @@
         </a>
       </li>
       {{#if user}}
-      <li class="nav-item">
+      <li class="nav-item" >
         <a href="/users/logout" class="nav-link" >
           <svg
             aria-hidden="true"
@@ -48,7 +54,7 @@
       </li>
       {{else}}
       <li class="nav-item">
-        <a href="#" class="nav-link" id="ingresar" data-toggle="modal" data-target="#login">
+        <a href="#" class="nav-link" id="ingresar" data-toggle="modal" onclick="closeNav()"  data-target="#login">
           <svg
             aria-hidden="true"
             focusable="false"
@@ -68,7 +74,7 @@
       </li>
 
       <li class="nav-item">
-        <a href="#" class="nav-link" id="registro" data-toggle="modal" data-target="#register">
+        <a href="#" class="nav-link" id="registro" data-toggle="modal" onclick="closeNav()"  data-target="#register">
           <svg
             aria-hidden="true"
             focusable="false"
@@ -90,7 +96,7 @@
       </li>
       {{/if}}
       <li class="nav-item">
-        <a href="#" class="nav-link" id="venta" data-toggle="modal" data-target="#myModal">
+        <a href="#" class="nav-link" id="venta" data-toggle="modal" onclick="closeNav()"  data-target="#myModal">
           <svg
             aria-hidden="true"
             focusable="false"
@@ -110,11 +116,12 @@
           </g>
           </svg>
 
-          <span class="link-text">Crear Anuncio</span>
+          <span class="link-text">Crear vox</span>
         </a>
       </li>
+
       <li class="nav-item">
-        <a href="/" class="nav-link docutector">
+        <a href="#" class="nav-link" id="venta" onclick="closeNav(); searchModal()">
           <svg
             aria-hidden="true"
             focusable="false"
@@ -126,7 +133,7 @@
             class="svg-inline--fa fa-space-station-moon-alt fa-w-16 fa-5x"
           >
           <g class="fa-group">
-            <i class="fas fas1 fa-home"></i>
+            <i class="fas fa-search"></i>
 
 
 
@@ -134,10 +141,9 @@
           </g>
           </svg>
 
-          <span class="link-text">Crear Anuncio</span>
+          <span class="link-text">Buscar vox</span>
         </a>
       </li>
-
 
       <li class="nav-item" id="themeButton">
 
@@ -149,7 +155,26 @@
 
 
 
+<script type="text/javascript">
+function searchModal() {
+  swal({
+    title: 'Ingresa el nombre del vox',
+    text: 'Acordate que la busqueda puede variar dependiendo de los caracteres.',
+    content: "input",
+    button: {
+      text: "Buscar",
+      closeModal: false,
+    },
+  })
+  .then(name => {
+    if (!name) throw null;
 
+    window.location.replace(`/voxSearch/${name}`);
+  })
+
+}
+
+</script>
 
 
 
@@ -228,9 +253,38 @@
             </div>
             <div class="form-group">
               <select class="form-control contacto" name="category">
-                <option value="Uff">/UFF/</option>
-                <option value="Pol">/POL/</option>
-                <option value="Gnr">/GNR/</option>
+                <option value="CategorySelect">Selecciona la categoria</option>
+                <option value="UFF">/Random/</option>
+                <option value="POL">/Politica/</option>
+                <option value="OFF">/General/</option>
+                <option value="LIT">/Literatura/</option>
+                <option value="LUG">/Lugares/</option>
+                <option value="YTB">/Youtube/</option>
+                <option value="HUM">/Humanidades/</option>
+                <option value="MUS">/Musica/</option>
+                <option value="CYTV">/Cine Y TV/</option>
+                <option value="ART">/ART/</option>
+                <option value="GMR">/Juegos/</option>
+                <option value="AUT">/Autos/</option>
+                <option value="PAR">/Paranormal/</option>
+                <option value="WEBM">/WEBM/</option>
+                <option value="DEP">/Deportes/</option>
+                <option value="UMA">/Gastronomia/</option>
+                <option value="HIS">/Historias/</option>
+                <option value="PRG">/Preguntas/</option>
+                <option value="HMR">/Humor/</option>
+                <option value="CNJ">/Consejos/</option>
+                <option value="ANM">/Anime/</option>
+                <option value="CIE">/Ciencia/</option>
+                <option value="TEC">/Tecnologia/</option>
+                <option value="PRG">/Preguntas/</option>
+                <option value="DES">/Descargas/</option>
+                <option value="NOT">/Noticias/</option>
+                <option value="ECO">/Economia/</option>
+                <option value="SMFG">/Samefag/</option>
+                <option value="INT">/Internacional/</option>
+                <option value="HIS">/Hispanos/</option>
+                <option value="OMN">/Omniverso/</option>
               </select>
             </div>
 
@@ -247,7 +301,7 @@
         </div>
         {{else}}
         <div class="modal-footer">
-        <h6>¿Nuevo en venditio? <a href="/users/signup">registrate aca!         </a></h6> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+        <h6>¿Nuevo en voxer? <a href="#" data-toggle="modal" onclick="closeNav()"  data-target="#register">registrate aca!         </a></h6> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         </div>
         {{/if}}
       </div>
@@ -281,7 +335,7 @@
           </div>
         </form>
         <div class="modal-footer">
-          <h6>¿Nuevo en venditio? <a href="#" data-toggle="modal" data-target="#register">registrate aca!         </a></h6> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+          <h6>¿Nuevo en voxer? <a href="#" data-toggle="modal" onclick="closeNav()"  data-target="#register">registrate aca!         </a></h6> <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         </div>
       </div>
 
@@ -358,14 +412,39 @@
   }
 
   </style>
+  <script type="text/javascript">
 
+  </script>
 <script type="text/javascript">
+
+var numeroNav = 0;
+
+  $('#navbardesp').click(function() {
+
+    if (numeroNav == 0) {
+      $(".navbar").addClass('animated');
+      $(".fademe").addClass('animated');
+      numeroNav += 1
+    } else {
+
+      $(".navbar").removeClass('animated');
+      $(".fademe").removeClass('animated');
+      numeroNav = 0;
+    }
+});
+
+function closeNav() {
+  $(".navbar").removeClass('animated');
+  $(".fademe").removeClass('animated');
+  numeroNav = 0;
+}
 function fileValidation(){
 var fileInput = document.getElementById('file');
 var filePath = fileInput.value;
 var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
 if(!allowedExtensions.exec(filePath)){
-    alert('Please upload file having extensions .jpeg/.jpg/.png/.gif only.');
+  swal('Archivo no soportado.', 'Podes subir los siguientes formator de archivos .jpeg / .jpg / .png / .gif', 'error');
+
     fileInput.value = '';
     return false;
 }else{

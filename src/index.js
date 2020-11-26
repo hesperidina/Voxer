@@ -79,9 +79,9 @@ const server = app.listen(app.get("port"), () => {
 const io = SocketIO(server);
 //SocketIO
 io.on("connection", (socket) => {
-
-  socket.on("chat:message", (data) => {
-    console.log(data);
-    io.sockets.emit("chat:message", data);
-  })
+  console.log("usuario: " + socket.id);
+  socket.on('chat:comentario', (data) => {
+    console.log(data)
+    io.sockets.emit('chat:comentario', data);
+  });
 });

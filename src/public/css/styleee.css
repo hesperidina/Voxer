@@ -9,12 +9,20 @@
   flex-wrap: wrap;
   flex-flow: column;
 }
+.descripcionAnuncio {
+    line-height: 1.7;
+    font-size: 16px;
+    word-break: break-word;
+    margin-bottom: 16px;
+}
 
 .commentContent::selection {
     background-color: rgba(29,29,32,0.99);
 }
-.btn {
-   padding: 1em 2.1em 1.1em;
+
+
+.btn1 {
+   padding: 1.2em;
    border-radius: 3px;
    margin: 8px 8px 8px 8px;
    color: white;
@@ -36,7 +44,7 @@
    box-shadow: 0em -0.3rem 0em rgba(0, 0, 0, 0.1) inset;
    position: relative;
 }
-.btn:hover, .btn:focus {
+.btn1:hover, .btn1:focus {
    opacity: 0.8;
    background-color: #f6aaf9;
    background: #f6aaf9;
@@ -44,7 +52,7 @@
 
 button:focus { outline:0 !important; }
 
-.btn:active {
+.btn1:active {
    -webkit-transform: scale(0.90);
    -moz-transform: scale(0.90);
    -ms-transform: scale(0.90);
@@ -52,11 +60,11 @@ button:focus { outline:0 !important; }
    transform: scale(0.90);
    outline:0 !important;
 }
-.btn.block {
+.btn1.block {
    display: block !important;
    outline:0 !important;
 }
-.btn.circular {
+.btn1.circular {
  border-radius: 50em !important;
  outline:0 !important;
 }
@@ -90,8 +98,8 @@ body {
     flex-grow: 1;
 }
 
-input[type=text], select, textarea{
-  width: 100%;
+.textarea2 {
+  width: calc(48vw - 48px);
   padding: 12px;
   border: 1px solid #ccc;
   background: #1d1d20;
@@ -99,14 +107,18 @@ input[type=text], select, textarea{
   border-color: #3d3d3f;
   border-radius: 5px;
   box-sizing: border-box;
+  transition: 1s;
   resize: vertical;
-  -webkit-box-shadow: 0px 0px 0px 2px rgba(61,61,63,1);
-  -moz-box-shadow: 0px 0px 0px 2px rgba(61,61,63,1);
-  box-shadow: 0px 0px 0px 2px rgba(61,61,63,1);
+  font-family: monospace;
 }
 
-input[type=text]:focus{
-  outline: 2px solid orange;     /* oranges! yey */
+.textarea2:hover {
+  border-color: white;
+
+}
+
+.textarea2 input[type=text]:focus{
+  outline: 2px solid white;
 }
 .textoBarra{
     flex-basis: 100%;
@@ -137,13 +149,13 @@ figure.imagen2 {
     background: #3d3d3f;
     border-radius: 4px;
     padding: 5px;
-    -webkit-box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.4);
-    -moz-box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.4);
-    box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.4);
+    -webkit-box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.2);
+    -moz-box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.2);
+    box-shadow: 5px 5px 24px 0px rgba(0,0,0,0.2);
     display: flex;
     align-items: flex-start;
 
-    max-width: calc(50% - 16px);
+    max-width: calc(18vw - 16px);
     margin-bottom: 16px;
     width: 100%;
     flex-wrap: wrap;
@@ -161,27 +173,23 @@ header.texto h1 {
     margin: 0;
     margin-bottom: 16px;
     margin-bottom: 10px;
-    font-size: 30px;
-    font-weight: 700;
+    font-size: 36px;
+    font-weight: 900;
     color: #f5f4f4;
     line-height: 105%;
     word-break: break-word;
 }
 
-.descripcionAnuncio {
-    line-height: 1.7;
-    word-break: break-word;
-    margin-bottom: 16px;
-}
-figure.imagen2 img {
 
-    width: 100%;
-    min-width: 20.2vw;
-    height: 100%;
+figure.imagen2 img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+
     border-radius: 4px;
 }
 
-.btn-primary {
+.btn1-primary {
   margin-top: 1vh;
 }
 .text-center {
@@ -244,7 +252,52 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
 
 }
 
+.comment2 {
+  flex-basis: calc(100%/8 - 16px) !important;
+  border-radius: 0px;
+  margin-left: 16px;
+  transition: 0.7s;
+}
+.comment2 select {
+  border: none;
+  background-color: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  background: none;
+  cursor: pointer;
+}
+.comment2 button {
+  border: none;
+  background-color: none;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  background: none;
+  cursor: pointer;
+}
+.comment2 select:focus {
+  outline: none;
+}
+.comment2 option {
+    color: black;
+}
+.comment2 i {
+  color: white;
+  font-size: 16px;
+}
+.commentContent2 {
+  text-align: center !important;
+}
+.nopadding {
+  margin-left: 0px !important;
+}
 
+
+.comment2:hover {
+  background-color: #49494d;
+  cursor:pointer;
+}
 
 span.author {
     font-weight: bolder;
@@ -327,14 +380,46 @@ span.author {
 }
 
 
-
-    @media (hover: none) and (pointer: coarse)
+    @media (max-width: 650px)
      {
        .jijo {
          flex-wrap: wrap;
          display: block;
-        height: calc(100vh - 50px);
+        height: calc(100vh);
+        width: calc(auto - 50px);
           flex-flow: row;
+       }
+       .descripcionAnuncio {
+           line-height: 1.7;
+           font-size: 32px;
+           word-break: break-word;
+           margin-bottom: 16px;
+       }
+       header.texto h1 {
+           font-size: 72px;
+           font-weight: 900;
+           word-break: break-word;
+       }
+       .btn1 {
+          padding-left: 5vw;
+          padding-right: 5vw;
+          font-size: 40px;
+          text-align: center;
+          vertical-align: middle;
+          position: relative
+       }
+       .textarea2 {
+         width: calc(96vw - 24px);
+         height: calc(100vw/4);
+         font-size: 200%;
+       }
+       figure.imagen2 {
+           min-width: calc(98vw - 16px);
+           min-height: auto;
+       }
+       figure.imagen2 img {
+           min-width: calc(97vw - 16px);
+           min-height: auto;
        }
 
        .leftside {
@@ -355,9 +440,7 @@ span.author {
         flex-basis: 100%;
     }
 
-    .aeae23 {
-      height: 44px;
-    }
+
     .avatarColoryellow {
         width: 88px;
         height: 88px;
@@ -413,11 +496,122 @@ span.author {
           word-break: break-word;
         }
 
-        header.texto h1 {
-            font-size: 42px;
-            font-weight: 600;
+     }
+
+
+    @media (hover: none) and (pointer: coarse)
+     {
+       .jijo {
+         flex-wrap: wrap;
+         display: block;
+        height: 101vh;
+          flex-flow: row;
+       }
+       .descripcionAnuncio {
+           line-height: 1.7;
+           font-size: 32px;
+           word-break: break-word;
+           margin-bottom: 16px;
+       }
+       header.texto h1 {
+           font-size: 72px;
+           font-weight: 900;
+           word-break: break-word;
+       }
+       .btn1 {
+          padding-left: 5vw;
+          padding-right: 5vw;
+          font-size: 2vw;
+          text-align: center;
+          vertical-align: middle;
+          position: relative
+       }
+       .textarea2 {
+         width: calc(96vw - 24px);
+         height: calc(100vw/4);
+         font-size: 200%;
+       }
+       figure.imagen2 {
+           min-width: calc(98vw - 16px);
+           min-height: auto;
+       }
+       figure.imagen2 img {
+           min-width: calc(97vw - 16px);
+           min-height: auto;
+       }
+
+       .leftside {
+         padding-top: 10px;
+         padding-bottom: 30px;
+         flex-basis: 100vw;
+         height: 100vh;
+         width: 100vw;
+         height: auto;
+         position: static;
+       }
+
+       .rightside {
+        flex-grow: 1;
+        height: 100vh;
+        width: 100vw;
+        margin: 0;
+        flex-basis: 100%;
+    }
+
+
+    .avatarColoryellow {
+        width: 88px;
+        height: 88px;
+            border-radius: 10px;
+    }
+    .avatarColorgreen {
+        width: 88px;
+        height: 88px;
+            border-radius: 10px;
+    }
+    .avatarColorred {
+        width: 88px;
+        height: 88px;
+            border-radius: 10px;
+    }
+    .avatarColorblue {
+        width: 88px;
+        height: 88px;
+        border-radius: 10px;
+    }
+    .avatarColorBlack {
+        width: 88px;
+        height: 88px;
+        border-radius: 10px;
+    }
+    .avatarColorWhite {
+        width: 88px;
+        height: 88px;
+        border-radius: 10px;
+    }
+    .avatarColorMulti {
+        width: 88px;
+        height: 88px;
+        border-radius: 10px;
+      }
+      .avatarColorInvertido {
+          width: 88px;
+          border-radius: 10px;
+          height: 88px;
         }
-        .descripcionAnuncio {
-          font-size: 0.9rem;
+
+        span.author {
+            font-size: 28px;
+            align-items: center;
         }
+
+        .comment {
+            padding: 32px;
+            margin-bottom: 4px;
+        }
+        .commentContent {
+          font-size: 26px;
+          word-break: break-word;
+        }
+
      }

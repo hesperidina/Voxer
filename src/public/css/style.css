@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,600');
-
 @font-face {
   font-family: 'CoolveticaRg-Regular';
   src: url('/font/CoolveticaRg-Regular.svg#CoolveticaRg-Regular') format('svg'),
@@ -8,6 +7,8 @@
   font-weight: normal;
   font-style: normal;
 }
+display: none;
+
 
 .fas1 {
   font-size: 1rem;
@@ -17,6 +18,26 @@ main {
   background-color: var(--bg-secondary);
 }
 
+.fademe {
+  width:150vw;
+  height:150vh;
+  right: 0px;
+  position: fixed;
+  z-index: -200;
+  background:rgba(0, 0, 0, 1);
+  opacity: 0;
+  transition: 1s;
+
+}
+.fademe.animated {
+    z-index: 999;
+  opacity: 0.4;
+  transition: 1s;
+}
+
+
+
+
 :root {
   --text-primary: #b6b6b6;
   --text-secondary: #ececec;
@@ -24,7 +45,28 @@ main {
   --bg-secondary: #141418;
   --transition-speed: 600ms;
 }
+.float{
+position:fixed;
+width:60px;
+height:60px;
+bottom:40px;
+right:40px;
+background-color:#ca8bcc;
+color:#FFF;
+border-radius:100px;
+text-align:center;
+z-index: -10;
+box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.55);
 
+}
+.my-float{
+  position: relative;
+  top: -10px;
+  color: #242424;
+  text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.75);
+
+font-size: 40px;
+}
 body {
   color: black;
   background-color: white;
@@ -127,37 +169,105 @@ box-shadow: 10px 10px 20px -4px rgba(0,0,0,0.15);
 
 /* PARA CELULAR */
 @media (hover: none) and (pointer: coarse) {
+  .swal-modal {
+    width: 90vw;
+    height: auto;
+  }
+  .modal-content {
+margin-top: 50vw;
+margin-bottom: 50vw;
 
+    margin-left: 5vw;
+    width: 90vw;
+    height: auto;
+  }
+  .modal-title {
+    font-size: 5vw;
+}
+.form-control {
+    font-size: 1.5rem;
+  }
+  textarea.form-control {
+    height: 10em;
+    font-family: monospace;
+}
+  .modal-dialog {
+      max-width: 100vw;
+  }
+
+  .swal-title {
+    font-size: 6vw;
+  }
+  .swal-text {
+    font-size: 2vw;
+  }
   .fas1 {
     font-size: 2.5rem;
   }
   ::-webkit-scrollbar {
     width: 0px;
   }
-  .navbar {
-    bottom: 0;
-    width: 100vw;
-    height: 5rem;
+
+  .float{
+  z-index: 102;
+  height: 7vh;
+  width: 7vh;
   }
+
+  .my-float{
+  margin-top:3vh;
+  }
+
   .jijo {
     margin-left: 0rem;
     overflow-y: scroll;
   }
 
-  .logo {
-    display: none;
+
+  .navbar {
+    top: 0;
+    width: 0px;
+    left: -100px;
+    height: 100vh;
   }
 
-  .navbar-nav {
-    flex-direction: row;
-    margin-left: 6rem;
-    flex:1;
+
+  .navbar.animated {
+    width: 32rem;
+    left: 0px;
 
   }
 
-  .nav-link {
-    justify-content: center;
+  .link-text {
+    font-size: 32px;
+    }
+
+.nav-item {
+  padding-top: 2vh;
+}
+.nav-item i {
+  font-size: 32px;
+}
+  .navbar.animated .link-text {
+    display: inline;
   }
+
+  .navbar.animated .logo svg
+  {
+
+    margin-left: 28rem;
+  }
+
+  .navbar.animated .logo-text
+  {
+    weight: normal !important;
+    left: 40%;
+    font-size: 3rem
+  }
+
+
+
+
 
   main {
     margin: 0;
@@ -171,6 +281,7 @@ box-shadow: 10px 10px 20px -4px rgba(0,0,0,0.15);
     width: 3rem;
     height: 100vh;
   }
+
 
   .navbar:hover {
     width: 16rem;

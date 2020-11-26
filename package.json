@@ -10,7 +10,7 @@
 		"start": "node src/index.js",
 		"startDev": "nodemon src/index.js"
 	},
-	"author": "Grunt",
+	"author": "Hesperidina",
 	"license": "ISC",
 	"dependencies": {
 		"@barba/core": "^2.9.7",

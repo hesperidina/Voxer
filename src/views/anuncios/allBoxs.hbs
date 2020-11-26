@@ -6,15 +6,31 @@
     <main class="jijo">
 
 
-      <a href="/about" class=box id=inicio><div>Ayuda y reglas</div></a>
+      <a href="/about" class=box id=inicio>        <div class="displayTags">
+                <div class="categoriaDisplay2 tagAmarilloCepillo">
+                  <p>Ayuda y reglas</p>
+                </div>
+
+
+              </div><div class="titulo row-fluid">¿Nuevo en Voxer?</div></a>
       {{#each boxs}}
-      <a href="/anuncio/{{_id}}" class="box" id="jijo{{_id}}" > <div class="row-fluid">
+      <a href="/vox/{{_id}}" class="box" id="jijo{{_id}}" > <div class="row-fluid">
+        <div class="displayTags">
+          <div class="categoriaDisplay">
+            <p>{{category}}</p>
+          </div>
+          <div class="bordeVox">  </div>
+          <div class="categoriaDisplay">
+            <p>{{category}}</p>
+          </div>
+
+        </div>
         <div class="division">
           <div class="titulo row-fluid">{{title}}</div>
         </div> </div></a>
       <style media="screen">
         #jijo{{_id}} {
-            background-image: linear-gradient(0deg, rgba(0,0,0,0.1) 35%, rgba(255,255,255,0) 100%), url("/backgrounds/{{filename}}");
+            background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25)), url("/backgrounds/{{filename}}");
             background-repeat: no-repeat;
         }
 

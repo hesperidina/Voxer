@@ -8,12 +8,12 @@ y dejar la pagina en codigo abierto para que el proyecto sea continuado y mejora
 ### Cosas para hacer
 
 - [x] Poner categorias
-- [ ] Recategorizacion
+- [x] Recategorizacion
 - [ ] Admin tools (baneo y panel de control) y rangos de admins (janitos, mod, admin)
 - [x] Poner los colores de los anons
 - [ ] Comandos (>dados, >idunico)
 - [ ] Notificar errores (Por ejemplo si no se sube una imagen al crear un vox que se notifique este error)
-- [ ] Barra de busqueda
+- [x] Barra de busqueda
 - [ ] Carga progresiva (Ir cargando los voxs a medida que se scrollea)
 - [ ] Sesion con cookies
-
+- [ ] Implementar SocketIO

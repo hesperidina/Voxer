@@ -1,9 +1,7 @@
-const socket = io()
+var socket = io.connect();
 let message = document.getElementById("message");
-let name = document.getElementById("name");
-let id = document.getElementById("id");
 let btn = document.getElementById("send");
-var output = document.getElementById("menem");
+var output = document.getElementById("comentar");
 
 btn.addEventListener("click", function() {
   var numero = Math.floor(Math.random() * 112) + 1
@@ -33,15 +31,15 @@ btn.addEventListener("click", function() {
         numero = "avatarColorInvertido"
   }
   console.log(numero);
-  socket.emit("chat:message", {
-    name: name.value,
+  socket.emit ('chat:comentario', {
     message: message.value,
     numero: numero,
-    id: id.value,
   });
 });
 
-socket.on("chat:message", function (data) {
-  var output = document.getElementById(data.id);
-  output.innerHTML += "<div class=commentList id=commentList> <div class=comment>"  +  "<div class=commentAvatar> <div class=" + data.numero + ">  </div>  </div><div class=commentBody>" + "<div class=commentMetadata><div class=commentsTag unselect><span class=author>"+ data.name +"</span></div></div>  <div class=commentContent>" + data.message + "</div></div></div></div>"
+socket.on("chat:comentario", function (data) {
+  console.log(data.message);
+  console.log(data.multi);
+  var output = document.getElementById("comentar");
+  output.innerHTML += "<div class=commentList id=commentList> <div class=comment>"  +  "<div class=commentAvatar> <div class=" + data.numero + ">  </div>  </div><div class=commentBody>" + "<div class=commentMetadata><div class=commentsTag unselect><span class=author>"+ "Anonimo" +"</span></div></div>  <div class=commentContent>" + data.message + "</div></div></div></div>"
 });

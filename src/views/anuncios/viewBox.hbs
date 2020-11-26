@@ -1,7 +1,12 @@
 {{> modals }}
 {{>navbar}}
 
+
+
+
           <link rel="stylesheet" href="/css/styleee.css"/>
+
+
 <div class="row no-gutters jijo">
 
   <div class="col-md-6 no-gutters">
@@ -10,7 +15,10 @@
       <div class=" barra2">
                 <div class="barra">
                           <div class=" textoBarra">
-                              <div class="Perfil"></div>
+                              <div class="Perfil">{{box2.category}} </div>
+
+
+
                               <div class="aaaa23"></div>
                               <div style="float:right;" class="aaaa23 align-right"></div>
                           </div>
@@ -23,6 +31,44 @@
                             </div>
                     </div>
           </div>
+          <form action="/updateCategory/{{box2._id}}?_method=PUT" method="post">
+            <input type="hidden" name="_method" value="PUT">
+          <div class="commentList commentList2" > <div class="comment comment2 ">  <div class="commentContent commentContent2"><select name="category" id=""  placeholder="Categoria">
+    <option >Categoria</option>
+    <option value="UFF">/Random/</option>
+    <option value="POL">/Politica/</option>
+    <option value="OFF">/General/</option>
+    <option value="LIT">/Literatura/</option>
+    <option value="LUG">/Lugares/</option>
+    <option value="YTB">/Youtube/</option>
+    <option value="HUM">/Humanidades/</option>
+    <option value="MUS">/Musica/</option>
+    <option value="CYTV">/Cine Y TV/</option>
+    <option value="ART">/ART/</option>
+    <option value="GMR">/Juegos/</option>
+    <option value="AUT">/Autos/</option>
+    <option value="PAR">/Paranormal/</option>
+    <option value="WEBM">/WEBM/</option>
+    <option value="DEP">/Deportes/</option>
+    <option value="UMA">/Gastronomia/</option>
+    <option value="HIS">/Historias/</option>
+    <option value="PRG">/Preguntas/</option>
+    <option value="HMR">/Humor/</option>
+    <option value="CNJ">/Consejos/</option>
+    <option value="ANM">/Anime/</option>
+    <option value="CIE">/Ciencia/</option>
+    <option value="TEC">/Tecnologia/</option>
+    <option value="PRG">/Preguntas/</option>
+    <option value="DES">/Descargas/</option>
+    <option value="NOT">/Noticias/</option>
+    <option value="ECO">/Economia/</option>
+    <option value="SMFG">/Samefag/</option>
+    <option value="INT">/Internacional/</option>
+    <option value="HIS">/Hispanos/</option>
+    <option value="OMN">/Omniverso/</option>
+
+  </select></div></div><div class="comment comment2  nopadding">  <div class="commentContent commentContent2"> <button class="" type="submit"><i class="fas fa-wrench"></i></button></div></div></div>
+</form>
         <article class="anuncioBox">
                                 <figure class="imagen2">
                     <div class=" imagen">
@@ -42,13 +88,13 @@
     <div class="rightside">
 
       <div class="barra2 form-group aeae2">
-        <form action="/anuncio/{{box2.id}}/comment" method="post">
+        <form action="/vox/{{box2.id}}/comment" method="post">
           <div class="barra">
                     <div class="textoBarra aeae">
-                        <div class="barra"> <textarea name="comentario" rows="6" cols="80" class="aeae23" id="message" placeholder="Escribi un comentario."></textarea>
+                        <div class="barra"> <textarea name="comentario" rows="6" cols="80" class="aeae23 textarea2" id="message" placeholder="Escribi un comentario."></textarea>
                         </div>
                     </div>
-                <button type="submit" class="btn" id="send" >Comentar</button>
+                <button type="submit" class="btn btn1" id="send" >Comentar</button><button class="btn btn1" > <i class="fas fa-upload"></i> </button>
             </div>
         </form>
 
@@ -64,7 +110,6 @@
       {{#each filteredComment}}
       <div class=commentList id=commentList> <div class=comment><div class=commentAvatar> <div class="{{this.numero}}">  </div>  </div><div class=commentBody><div class=commentMetadata><div class=commentsTag unselect><span class=author>{{this.name}}</span></div></div>  <div class=commentContent>{{this.comentario}}</div></div></div></div>
       {{/each}}
-      <p>test</p>
       <div class="aaa" id="comentar">
       </div>
     <p id="{{box2.id}}"></p>

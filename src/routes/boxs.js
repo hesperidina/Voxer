@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const box = require("../models/Box");
+const app = express();
+//const io = require('socket.io').listen(8001);
 const users = require("../models/users");
 const comment = require("../models/Comment");
 const multer = require("multer");
@@ -56,12 +58,19 @@ router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
 });
 
 router.get("/", async (req, res) =>{
-    const boxs = await box.find().sort({date: "desc", });
+    const boxs = await box.find().sort({updatedDate: "desc", });
     res.render("anuncios/allBoxs", { boxs });
 });
 
-router.get("/uff", async (req, res) =>{
-    const boxs = await box.find({category: "Uff"}).sort({date: "desc", });
+router.get("/:category", async (req, res) =>{
+    const boxs = await box.find({category: req.params.category}).sort({updatedDate: "desc", });
+    res.render("anuncios/allBoxs", { boxs });
+});
+
+router.get("/voxSearch/:title", async (req, res) =>{
+  const s = req.params.title;
+  const regex = new RegExp(s, 'i') // i for case insensitive
+    const boxs = await box.find({title: {$regex: regex}}).sort({updatedDate: "desc", });
     res.render("anuncios/allBoxs", { boxs });
 });
 
@@ -71,15 +80,15 @@ router.get("/admin", async (req, res) =>{
     res.render("anuncios/allBoxsAdmin", { boxs });
 });
 
-router.get("/anuncios/user", async (req, res) =>{
-    const boxsPropios = await box.find({user: req.user.id}).sort({date: "desc", });
-    await res.render("anuncios/allBoxs2", { boxsPropios });
-});
+//router.get("/anuncios/user", async (req, res) =>{
+//    const boxsPropios = await box.find({user: req.user.id}).sort({date: "desc", });
+//    await res.render("anuncios/allBoxs2", { boxsPropios });
+//});
 
-router.get("/anuncio/:id",async (req, res) => {
-  const forwarded = req.headers['x-real-ip']
-const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
-console.log(ip);
+router.get("/vox/:id",async (req, res) => {
+//  const forwarded = req.headers['x-real-ip']
+//  const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
+//  console.log(ip);
   try {
     const box2 = await box.findById(req.params.id);
     const filteredComment = await comment.find({image_id: req.params.id}).sort({date: "desc", });
@@ -87,8 +96,8 @@ console.log(ip);
 //    console.log(comment2);
     res.render("anuncios/viewBox", { box2, filteredComment});
 }
-catch(box1) {
-    res.render("anuncios/viewBox", { box1 });
+catch(error) {
+    res.render("anuncios/viewBox", { error });
 }
 });
 //router.get("/edit/:id", isAuthenticated, async (req, res) =>{
@@ -110,7 +119,18 @@ router.put("/edit/:id", async (req, res) => {
   await box.findByIdAndUpdate(req.params.id, { title, description});
   res.redirect("/")
 });
+router.put("/updateCategory/:id", async (req, res) => {
+  const category = req.body;
+  const categorias = ["UFF", "POL", "GNR"];
+  console.log(categorias);
+  if (req.body.category === "Categoria") {
+    res.redirect("/vox/" + req.params.id);
+  } else {
+    await box.findByIdAndUpdate(req.params.id, category);
+    res.redirect("/vox/" + req.params.id);
+  }
 
+});
 router.delete("/delete/:id", async (req, res) => {
   const box2 = await box.findById(req.params.id);
   console.log(box2.filename);
@@ -122,14 +142,14 @@ router.delete("/delete/:id", async (req, res) => {
     await comment.findByIdAndDelete(item._id);
   });
 
-  //console.log("testta")
   res.redirect("/");
 });
 
-router.post("/anuncio/:id/comment", async(req, res) =>{
+router.post("/vox/:id/comment", async(req, res) =>{
   const box2 = await box.findById(req.params.id);
-
-
+  await box.findByIdAndUpdate({ _id: box2._id },
+    { updatedDate: Date.now()});
+  console.log(box2.updatedDate);
     if (box2) {
    const { comentario }= req.body;
    var name; if (req.isAuthenticated()) {//     const name = req.user.name;              Para tener el nombre de usuario    <------------
@@ -140,12 +160,12 @@ router.post("/anuncio/:id/comment", async(req, res) =>{
    if (numero >= 1 && numero <= 25) {
      numero = "avatarColoryellow"
    }  else if (numero >= 26 && numero <= 50) {numero = "avatarColorred" }  else if (numero >= 51 && numero <= 75) {numero = "avatarColorgreen"}  else if (numero >= 76 && numero <= 100) {        numero = "avatarColorblue"  }  else if (numero >= 101 && numero <= 105) {        numero = "avatarColorMulti"  }  else if (numero == 106) {numero = "avatarColorBlack"  }  else if (numero == 107) {numero = "avatarColorWhite"  }else if (numero >= 108 && numero <= 112){  numero = "avatarColorInvertido"  }
-   console.log(numero);
    const newCommentt = new comment({name: name, comentario: comentario, image_id: image_id, numero: numero});
     await newCommentt.save();
-    res.redirect("/anuncio/" + image_id);
+    res.redirect("/vox/" + image_id);
   }
 
 });
+
 
 module.exports = router;
