@@ -8,7 +8,7 @@
 }
 
 .jijo {
-  font-family: 'Lato',sans-serif;
+  font-family: 'Lato', arial;
   overflow-x: hidden;
 
   display: grid;
@@ -43,7 +43,7 @@
 .categoriaDisplay2 {
   color: #fefefe;
 padding: 2px 5px;
-font-family: 'Lato',sans-serif;
+font-family: 'Lato', arial;
 border-radius: 3px;
 font-size: 11px;
 margin-right: 5px;
@@ -72,7 +72,7 @@ box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);;
 .categoriaDisplay {
   color: #fefefe;
 padding: 2px 5px;
-font-family: 'Lato',sans-serif;
+font-family: 'Lato', arial;
 border-radius: 3px;
 font-size: 11px;
 margin-right: 5px;
@@ -88,7 +88,7 @@ box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);;
 
 }
 .titulo {
-  font-family: 'Lato',sans-serif;
+  font-family: 'Lato', arial;
   font-weight: 900;
   position: absolute;
   bottom: 10px;

@@ -17,3 +17,4 @@ y dejar la pagina en codigo abierto para que el proyecto sea continuado y mejora
 - [ ] Carga progresiva (Ir cargando los voxs a medida que se scrollea)
 - [ ] Sesion con cookies
 - [ ] Implementar SocketIO
+- [ ] Organizar un poco el codigo y comentarlo

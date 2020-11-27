@@ -4,6 +4,7 @@ const box = require("../models/Box");
 const app = express();
 //const io = require('socket.io').listen(8001);
 const users = require("../models/users");
+const deletedVox = require("../models/DeletedVoxes");
 const comment = require("../models/Comment");
 const multer = require("multer");
 const path = require("path");
@@ -27,6 +28,9 @@ const multerUpload = multer({
 router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
   const { title, description, category}= req.body;
   const { filename }= req.file;
+  const forwarded = req.headers['x-real-ip']
+  const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
+  console.log(ip);
   const errors = [];
   if(!title) {
     errors.push({text: "Titulo vacio"});
@@ -46,11 +50,12 @@ router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
       title,
       filename,
       description,
-      category
+      category,
+      ip
     });
 
   } else {
-    const newBox = new box({ title, description, filename, category});
+    const newBox = new box({ title, description, filename, category, ip});
     await newBox.save();
     res.redirect("/");
 
@@ -62,7 +67,7 @@ router.get("/", async (req, res) =>{
     res.render("anuncios/allBoxs", { boxs });
 });
 
-router.get("/:category", async (req, res) =>{
+router.get("/voxCategory/:category", async (req, res) =>{
     const boxs = await box.find({category: req.params.category}).sort({updatedDate: "desc", });
     res.render("anuncios/allBoxs", { boxs });
 });
@@ -75,9 +80,8 @@ router.get("/voxSearch/:title", async (req, res) =>{
 });
 
 router.get("/admin", async (req, res) =>{
-    const boxs = await box.find().sort({date: "desc", });
-  //  const box2 = await box.findById(req.params.id); //
-    res.render("anuncios/allBoxsAdmin", { boxs });
+    const boxs = await box.find().sort({updatedDate: "desc", });
+    res.render("anuncios/allBoxsAdminNew", { boxs });
 });
 
 //router.get("/anuncios/user", async (req, res) =>{
@@ -133,7 +137,12 @@ router.put("/updateCategory/:id", async (req, res) => {
 });
 router.delete("/delete/:id", async (req, res) => {
   const box2 = await box.findById(req.params.id);
-  console.log(box2.filename);
+  var reason = req.body.reason;
+  var idMod;
+  if (req.isAuthenticated()) {     idMod = req.user._id;   }  else { idMod = "modgolico";    }
+  var voxTitle = box2.title;
+  const newDel = new deletedVox({idMod: idMod, reason: reason, voxTitle: voxTitle});
+   await newDel.save();
   await fs.unlinkSync(path.resolve("./Voxer/src/public/backgrounds/" + box2.filename));
   await box.findByIdAndDelete(req.params.id);
   const commentDelt = await comment.find({image_id: req.params.id});

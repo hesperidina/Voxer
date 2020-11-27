@@ -251,10 +251,25 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
     justify-content: space-between;
 
 }
+.displayFlex {
+  display: flex;
+}
+
+.comment3 {
+  flex-basis: calc(100%/8 - 16px) !important;    margin-top: 15px;
+    height: 59.54%;
+}
 
 .comment2 {
   flex-basis: calc(100%/8 - 16px) !important;
   border-radius: 0px;
+  display: flex;
+  margin-left: 16px;
+  transition: 0.7s;
+}
+.commentListUpper2 {
+  border-radius: 0px;
+  display: flex;
   margin-left: 16px;
   transition: 0.7s;
 }
@@ -267,6 +282,7 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
   background: none;
   cursor: pointer;
 }
+
 .comment2 button {
   border: none;
   background-color: none;
@@ -276,6 +292,11 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
   background: none;
   cursor: pointer;
 }
+.icono2 {
+  justify-content: center;
+  align-items: center;
+
+}
 .comment2 select:focus {
   outline: none;
 }
@@ -284,6 +305,7 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
 }
 .comment2 i {
   color: white;
+  text-align: center;
   font-size: 16px;
 }
 .commentContent2 {

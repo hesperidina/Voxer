@@ -9,7 +9,8 @@ const BoxSchema = new Schema ({
   description: { type: String, required: true},
   date: { type: Date, default: Date.now},
   updatedDate: { type: Date, default: Date.now, timestamps: true},
-  user: { type: String}
+  user: { type: String},
+  ip: { type: String, required: true}
 });
 
 module.exports = mongoose.model("Box", BoxSchema);
