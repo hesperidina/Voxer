@@ -13,11 +13,18 @@
 .leftside, .rightside {
   height: 100vh;
   overflow-y: auto;
-  width: 100%;
   margin-top: 0.5rem;
   display: flex;
   flex-wrap: wrap;
   flex-flow: column;
+}
+.leftside {
+  width: 110%
+}
+.rightside {
+  position: relative;
+  left: 10%;
+  width: 90%;
 }
 .descripcionAnuncio {
     line-height: 1.4;
@@ -61,7 +68,7 @@ a:hover {
   background-color: #2d2d33;
   border-radius: 3px;
     font-size: 12px;
-    padding: 1px 3px;
+    padding: 1px 5px;
 color: #fefefe;
 cursor: pointer;
 margin-bottom: 0px;
@@ -162,7 +169,7 @@ body {
 
 }
 .textarea2 {
-  width: calc(48vw - 48px);
+  width: calc(43vw - 48px);
   padding: 12px;
   border: 1px solid #ccc;
   background: #1d1d20;
@@ -186,11 +193,12 @@ body {
 
 
 figure.imagen2 {
-    min-width: calc(52% - 16px);
+    min-width: calc(25vw);
     min-height: auto;
 }
+
 figure.imagen2 img {
-    min-width: calc(50% - 16px);
+    min-width: calc(25vw - 10px);
     min-height: auto;
 }
 
@@ -279,6 +287,11 @@ padding: 0px;
 article.anuncioBox {
     padding: 16px;
 }
+
+.marginleftt {
+  margin-left: 5px;
+}
+
 figure.imagen2 {
     margin: 0;
     float: left;
@@ -292,11 +305,12 @@ figure.imagen2 {
     display: flex;
     align-items: flex-start;
 
-    max-width: calc(18vw - 16px);
-    margin-bottom: 16px;
+max-width: 50%;
+    margin-bottom: 2px;
     width: 100%;
     flex-wrap: wrap;
 }
+
 .texto {
     color: #f5f4f4;
 }
@@ -319,7 +333,7 @@ header.texto h1 {
 
 
 figure.imagen2 img {
-    max-width: 100%;
+max-width: 50%;
     display: block;
     height: auto;
 
@@ -620,13 +634,13 @@ span.author {
 }
 
 
-    @media (max-width: 650px)
+    @media (max-width: 800px)
      {
        .jijo {
          flex-wrap: wrap;
          display: block;
-        height: calc(100vh);
-        width: calc(auto - 50px);
+        height: calc(100vh - 32px;);
+        margin-left: 5vw;
           flex-flow: row;
        }
        .descripcionAnuncio {
@@ -654,11 +668,11 @@ span.author {
          font-size: 200%;
        }
        figure.imagen2 {
-           min-width: calc(98vw - 16px);
+           min-width: calc(89.15vw - 16px);
            min-height: auto;
        }
        figure.imagen2 img {
-           min-width: calc(97vw - 16px);
+           min-width: calc(88.15vw - 16px);
            min-height: auto;
        }
 
@@ -667,7 +681,7 @@ span.author {
          padding-bottom: 30px;
          flex-basis: 100vw;
          height: 100vh;
-         width: 100vw;
+         width: 90.25vw;
          height: auto;
          position: static;
        }
@@ -675,7 +689,7 @@ span.author {
        .rightside {
         flex-grow: 1;
         height: 100vh;
-        width: 100vw;
+        width: 90.25vw;
         margin: 0;
         flex-basis: 100%;
     }
