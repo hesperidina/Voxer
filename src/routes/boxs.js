@@ -98,6 +98,21 @@ if (re.test(descriptionFiltered)) {
 
 router.get("/", async (req, res) =>{
    var boxs = await box.find().sort({updatedDate: "desc", });
+   boxs.forEach((boxs, i) => {
+     var ip = boxs.ip;
+var geo = geoip.lookup(ip);
+
+if (geo == null) {
+  boxs.flag = "ae";
+}
+else {
+  boxs.flag = geo.country;
+}
+     boxs.date2 = moment( boxs.date).fromNow();
+   });
+
+    res.render("anuncios/allBoxs", { boxs });
+});
 
 router.get("/voxCategory/:category", async (req, res) =>{
     const boxs = await box.find({category: req.params.category}).sort({updatedDate: "desc", });
@@ -126,30 +141,77 @@ router.get("/vox/:id",async (req, res) => {
   try {
     const box2 = await box.findById(req.params.id);
     const filteredComment = await comment.find({image_id: req.params.id}).sort({date: "desc", });
-   boxs.forEach((boxs, i) => {
-     var ip = boxs.ip;
-var geo = geoip.lookup(ip);
 
-if (geo == null) {
-  boxs.flag = "ae";
-}
-else {
-  boxs.flag = geo.country;
-}
-     boxs.date2 = moment( boxs.date).fromNow();
-     var categoryMap2 = {
-        'ANM':"Anime",
-        'HUM':"Humanidades",
-        'UFF': "Random", };
 
-  categoryFiltered = category.replace(category, function(matched){
+
+
+
+      var ip = box2.ip;
+      var geo = geoip.lookup(ip);
+      if (geo == null) {
+           box2.flag = "ar";
+         }
+         else {
+              box2.flag = geo.country;
+            }
+
+ var categoryMap2 = {
+   "ANM" : "Anime",
+   "ART" : "ART",
+   "AUT" : "Autos",
+   "CIE" : "Ciencia",
+   "CNJ" : "Consejos",
+   "CYTV" : "Cine Y TV",
+   "DEP" : "Deportes",
+   "DES" : "Descargas",
+   "ECO" : "Economia",
+   "GMR" : "Juegos",
+   "HIS" : "Hispanos",
+   "HIS" : "Historias",
+   "HMR" : "Humor",
+   "HUM" : "Humanidades",
+   "INT" : "Internacional",
+   "ITA" : "Italiani",
+   "LIT" : "Literatura",
+   "LUG" : "Lugares",
+   "MUS" : "Musica",
+   "NOT" : "Noticias",
+   "OFF" : "General",
+   "OMN" : "Omniverso",
+   "PAR" : "Paranormal",
+   "POL" : "Politica",
+   "PRG" : "Preguntas",
+   "PRG" : "Preguntas",
+   "SMFG" : "Samefag",
+   "TEC" : "Tecnologia",
+   "UFF" : "Random",
+   "UMA" : "Gastronomia",
+   "WEBM" : "WEBM",
+   "YTB" : "Youtube",};
+
+box2.categoryFiltered = box2.category.replace(box2.category, function(matched){
+   return categoryMap2[matched];
    });
+      box2.date2 = moment( box2.date).fromNow();
 
-    res.render("anuncios/allBoxs", { boxs });
-});
+    filteredComment.forEach((filteredComment, i) => {
+      var ipComment = filteredComment.commentIp;
+      var geoComment = geoip.lookup(ipComment);
+      if (geoComment == null) {
+           filteredComment.flag = "ar";
+           console.log(geoComment);
+         }
+         else {
+              filteredComment.flag = geoComment.country;
+              console.log(geoComment.country);
+
+            }
+            filteredComment.date2 = moment( filteredComment.date).fromNow();
+  });
+// ====> tengo que poner las banderas y categorias directamente en la DB
 
 
-    res.render("anuncios/viewBox", { box2, filteredComment, categoryFiltered});
+    res.render("anuncios/viewBox", { box2, filteredComment});
 }
 catch(error) {
     res.render("anuncios/viewBox", { error });

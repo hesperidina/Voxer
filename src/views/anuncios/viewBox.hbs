@@ -15,68 +15,79 @@
       <div class=" barra2 barraCategory">
 
                           <div class=" textoBarra perfil">
-                               <p class="perfiltext">{{categoryFiltered}}</p>
-
-
+                               <p class="perfiltext">{{box2.categoryFiltered}}</p>
 
                               <div class="aaaa23"></div>
-                              <div style="float:right;" class="aaaa23 align-right"></div>
+
                           </div>
 
         </div>
+
+
         <div class="barra2">
                   <div class="barra">
-                            <div class="textoBarra">
-                                <div class=" aaaa23"></div>
+                            <div class="textoBarra opciones">
+                            <div style="float:right;" class="aaaa23 opcionesVox"> <p class="opcionesVox2">Aca irian las opciones de los voxs</p> </div><div class="aaaa23 iniciadoPor"> <p class="iniciadoPorAnon">Iniciado por: Anonimo <img src="/flagGif/{{box2.flag}}.gif" alt="">, {{box2.date2}} </p> </div>
                             </div>
                     </div>
           </div>
-          <div class="commentListUpper2">
 
 
-          <form action="/updateCategory/{{box2._id}}?_method=PUT" method="post">
-            <input type="hidden" name="_method" value="PUT">
-          <div class="commentList commentList2" > <div class="comment comment2 ">  <div class="commentContent commentContent2"><select name="category" id=""  placeholder="Categoria">
-    <option >Categoria</option>
-    <option value="UFF">/Random/</option>
-    <option value="POL">/Politica/</option>
-    <option value="OFF">/General/</option>
-    <option value="LIT">/Literatura/</option>
-    <option value="LUG">/Lugares/</option>
-    <option value="YTB">/Youtube/</option>
-    <option value="HUM">/Humanidades/</option>
-    <option value="MUS">/Musica/</option>
-    <option value="CYTV">/Cine Y TV/</option>
-    <option value="ART">/ART/</option>
-    <option value="GMR">/Juegos/</option>
-    <option value="AUT">/Autos/</option>
-    <option value="PAR">/Paranormal/</option>
-    <option value="WEBM">/WEBM/</option>
-    <option value="DEP">/Deportes/</option>
-    <option value="UMA">/Gastronomia/</option>
-    <option value="HIS">/Historias/</option>
-    <option value="PRG">/Preguntas/</option>
-    <option value="HMR">/Humor/</option>
-    <option value="CNJ">/Consejos/</option>
-    <option value="ANM">/Anime/</option>
-    <option value="CIE">/Ciencia/</option>
-    <option value="TEC">/Tecnologia/</option>
-    <option value="PRG">/Preguntas/</option>
-    <option value="DES">/Descargas/</option>
-    <option value="NOT">/Noticias/</option>
-    <option value="ECO">/Economia/</option>
-    <option value="SMFG">/Samefag/</option>
-    <option value="INT">/Internacional/</option>
-    <option value="HIS">/Hispanos/</option>
-    <option value="OMN">/Omniverso/</option>
 
-  </select></div></div><div class="comment comment2  nopadding">  <div class="commentContent commentContent2"> <button class="" type="submit" value="DELETE"><i class="fas fa-wrench"></i></button></div></div>          </div>
+
+
+<div class="commentListUpper2">
+
+{{#ifCond user.rank "admin"}}
+<form action="/updateCategory/{{box2._id}}?_method=PUT" method="post">
+  <input type="hidden" name="_method" value="PUT">
+<div class="commentList commentList2" > <div class="comment comment2 ">  <div class="commentContent commentContent2"><select name="category" id=""  placeholder="Categoria">
+<option >Categoria</option>
+<option value="ANM">/Anime/</option>
+<option value="ART">/ART/</option>
+<option value="AUT">/Autos/</option>
+<option value="CIE">/Ciencia/</option>
+<option value="CNJ">/Consejos/</option>
+<option value="CYTV">/Cine Y TV/</option>
+<option value="DEP">/Deportes/</option>
+<option value="DES">/Descargas/</option>
+<option value="ECO">/Economia/</option>
+<option value="GMR">/Juegos/</option>
+<option value="HIS">/Hispanos/</option>
+<option value="HIS">/Historias/</option>
+<option value="HMR">/Humor/</option>
+<option value="HUM">/Humanidades/</option>
+<option value="INT">/Internacional/</option>
+<option value="ITA">/Italiani/</option>
+<option value="LIT">/Literatura/</option>
+<option value="LUG">/Lugares/</option>
+<option value="MUS">/Musica/</option>
+<option value="NOT">/Noticias/</option>
+<option value="OFF">/General/</option>
+<option value="OMN">/Omniverso/</option>
+<option value="PAR">/Paranormal/</option>
+<option value="POL">/Politica/</option>
+<option value="PRG">/Preguntas/</option>
+<option value="PRG">/Preguntas/</option>
+<option value="SMFG">/Samefag/</option>
+<option value="TEC">/Tecnologia/</option>
+<option value="UFF">/Random/</option>
+<option value="UMA">/Gastronomia/</option>
+<option value="WEBM">/WEBM/</option>
+<option value="YTB">/Youtube/</option>
+
+</select></div></div><div class="comment comment2  nopadding">  <div class="commentContent commentContent2"> <button class="" type="submit" value="DELETE"><i class="fas fa-wrench"></i></button></div></div>          </div>
 
 </form>
 <form name="myForm" id="myForm" method="POST" action="/delete/{{box2._id}}?_method=DELETE">
-      <input type="hidden" value="{{box2._id}}" name="std_id">
+<input type="hidden" value="{{box2._id}}" name="std_id">
 </form>
 <div class="comment comment2 comment3">  <div class="commentContent commentContent2"><button id="voxDelete"> <i class="fas fa-times icono2"> </i> </button> </div></div>
+{{else}}
+{{/ifCond}}
+
+
+
 
 </div>
 
@@ -127,7 +138,7 @@
 <p class="opComment">OP</p>
 {{else}}
 
-{{/ifCond}}<span class=author>{{this.name}}</span> <p class="tagComment"  id="{{this.tagId}}">{{this.tagId}}</p> </div></div>
+{{/ifCond}}<span class=author>{{this.name}}</span> <p class="tagComment"  id="{{this.tagId}}">{{this.tagId}}</p> <div class="flag"> <img src="/flagGif/{{this.flag}}.gif" alt=""></div>  </div> <div class="timeComment">{{this.date2}}</div> </div>
       <div class=commentContent>{{{this.comentario}}}</div></div></div></div>
 
       <script type="text/javascript">

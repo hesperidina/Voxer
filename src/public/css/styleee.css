@@ -35,7 +35,7 @@
   font-weight: normal;
 }
 
-a {
+.rightside a {
   color: #f7aafa;
   font-weight: bold;
   transition: 0.5s;
@@ -61,10 +61,14 @@ a:hover {
   background-color: #2d2d33;
   border-radius: 3px;
     font-size: 12px;
-    padding: 2px 5px;
+    padding: 1px 3px;
 color: #fefefe;
 cursor: pointer;
 margin-bottom: 0px;
+}
+
+.timeComment {
+  color: #8a8a8a;
 }
 .commentsTag {
   display: flex;
@@ -200,20 +204,64 @@ figure.imagen2 img {
   width: 100%;
 margin: 0px;
 padding: 0px;
-  font-size: 22px;
+  font-size: 18px;
   position: relative;
   font-family: 'CoolveticaRg-Regular';
 
 }
 
+.opciones  {
+  margin: 0px;
+  padding: 0px;
+  display: flex;
+  justify-content: right;
+  align-items: right;
+}
+.iniciadoPor {
+  position: relative;
+width: 100%;
+  text-align: right;
+margin: 0px;
+padding: 0px;
+}
+
+.opcionesVox {
+  position: relative;
+width: 100%;
+
+  text-align: right;
+margin: 0px;
+padding: 0px;
+
+}
+.opcionesVox2{
+  position: relative;
+  text-align: left;
+margin: 0px;
+padding: 0px;
+}
+.iniciadoPorAnon{
+  position: relative;
+width: 100%;
+
+  text-align: right;
+margin: 0px;
+padding: 0px;
+}
 .barra2 {
 
     padding: 4px;
 
 }
 .aaaa23 {
-    font-weight: 600;
+    font-weight: 400;
     font-size: 14px;
+}
+.aaaa23 p {
+  padding: 3px;
+}
+.flag {
+  margin-left: 5px;
 }
 
 .Perfil  {
@@ -333,7 +381,7 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
     margin-right: 2px;
     display: flex;
     align-items: flex-start;
-    border-radius: 5px;
+    border-radius: 0px;
     padding: 12px;
     background-color: #333334;
     transition: 0.5s;
@@ -344,7 +392,7 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
     flex-basis: 100%;
     display: flex;
     align-items: flex-start;
-    border-radius: 5px;
+    border-radius: 0px;
     padding: 12px;
     margin-bottom: 2px;
     transition: 0.5s;
@@ -356,7 +404,6 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
 
 .commentAvatar {
     margin-right: 12px;
-    border-radius: 10px;
     color: white;
     font-size: 20px;
     display: flex;
@@ -387,13 +434,11 @@ box-shadow: 10px 10px 5px 0px rgba(0,0,0,0);
 
 .comment2 {
   flex-basis: calc(100%/8 - 16px) !important;
-  border-radius: 0px;
   display: flex;
   margin-left: 16px;
   transition: 0.7s;
 }
 .commentListUpper2 {
-  border-radius: 0px;
   display: flex;
   margin-left: 16px;
   transition: 0.7s;
@@ -490,31 +535,31 @@ span.author {
     background: #ebc310;
     width: 50px;
     height: 50px;
-    border-radius: 5px;
+    border-radius: 0px;
 }
 .avatarColorgreen {
     background: #4aa813;
     width: 50px;
     height: 50px;
-    border-radius: 5px;
+    border-radius: 0px;
 }
 .avatarColorred {
     background: #c43718;
     width: 50px;
     height: 50px;
-    border-radius: 5px;
+    border-radius: 0px;
 }
 .avatarColorblue {
     background: #1857c4;
     width: 50px;
     height: 50px;
-    border-radius: 5px;
+    border-radius: 0px;
 }
 .avatarColorBlack {
     background: #242323;
     width: 50px;
     height: 50px;
-    border-radius: 5px;
+    border-radius: 0px;
 }
 .avatarColorWhite {
     background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25)), url("https://pbs.twimg.com/profile_images/653558348273569792/joxg8DZD_400x400.png");
@@ -523,7 +568,7 @@ span.author {
 
     width: 50px;
     height: 50px;
-    border-radius: 5px;
+    border-radius: 0px;
 }
 @keyframes multi {
   20% {
@@ -544,7 +589,7 @@ span.author {
     height: 50px;
     background: linear-gradient(#fdcd3b 25%, #136699 25%, #136699 50%, #3d9932 50%, #3d9932 75%, #ca2b00 75%, #ca2b00 100%);
     animation: multi .3s infinite;
-    border-radius: 5px;
+    border-radius: 0px;
   }
   @keyframes invertido {
     20% {
@@ -564,7 +609,7 @@ span.author {
       width: 50px;
       height: 50px;
       background: linear-gradient(#0232c4 25%, #ec9966 25%, #ec9966 50%, #c266cd 50%, #c266cd 75%, #35d4ff 75%, #35d4ff 100%);
-      border-radius: 5px;
+      border-radius: 0px;
       color: #212121;
           animation: invertido .3s infinite;
     }

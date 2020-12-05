@@ -9,7 +9,7 @@ y dejar la pagina en codigo abierto para que el proyecto sea continuado y mejora
 
 - [x] Poner categorias
 - [x] Recategorizacion
-- [ ] Admin tools (baneo y panel de control) y rangos de admins (janitos, mod, admin)
+- [x] Admin tools (baneo y panel de control) y rangos de admins (janitos, mod, admin)
 - [x] Poner los colores de los anons
 - [x] OP, greentext y links
 - [x] Comandos (>dados, >idunico)
