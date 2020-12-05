@@ -12,17 +12,17 @@
   <div class="col-md-6 no-gutters">
     <div class="leftside">
 
-      <div class=" barra2">
-                <div class="barra">
-                          <div class=" textoBarra">
-                              <div class="Perfil">{{box2.category}} </div>
+      <div class=" barra2 barraCategory">
+
+                          <div class=" textoBarra perfil">
+                               <p class="perfiltext">{{categoryFiltered}}</p>
 
 
 
                               <div class="aaaa23"></div>
                               <div style="float:right;" class="aaaa23 align-right"></div>
                           </div>
-                  </div>
+
         </div>
         <div class="barra2">
                   <div class="barra">
@@ -83,20 +83,20 @@
         <article class="anuncioBox">
                                 <figure class="imagen2">
                     <div class=" imagen">
-                        <a>
+                        <a href="/vox/{{box2.id}}/comment/img/{{box2.filename}}" >
                             <img src="/backgrounds/{{box2.filename}}">
                         </a>
                                                                                 </div>
                                     </figure>
                                 <header class="texto">
                     <h1 itemprop="name" class="tituloAnuncio">{{box2.title}}</h1>
-                    <div class="descripcionAnuncio">{{box2.description}} {{box2.ip}}</div>
+                    <div class="descripcionAnuncio">{{{box2.description}}}</div>
                 </header>
             </article>
     </div>
   </div>
-  <div class="col-md-6 no-gutters">
-    <div class="rightside">
+  <div class="col-md-6 no-gutters" >
+    <div class="rightside" id="divvox">
 
       <div class="barra2 form-group aeae2">
         <form action="/vox/{{box2.id}}/comment" method="post">
@@ -113,14 +113,41 @@
       <div class="barra2 aeae1" >
                 <div class="barra">
                           <div class="textoBarra">
-                              <div class="barra text-center"></div>
+                              <div class="barra text-center comentariovox" > Comentarios({{box2.comments}}) </div>
                           </div>
 
                   </div>
       </div>
+      <div id="commentListId">
+
+      </div>
       {{#each filteredComment}}
-      <div class=commentList id=commentList> <div class=comment><div class=commentAvatar> <div class="{{this.numero}}">  </div>  </div><div class=commentBody><div class=commentMetadata><div class=commentsTag unselect><span class=author>{{this.name}}</span></div></div>  <div class=commentContent>{{this.comentario}}</div></div></div></div>
+      <div class=commentList id=commentList> <div class='commentvox'><div class=commentAvatar> {{#ifCond ../box2.dados false}}<div class="{{this.numero}} anonText"> ANON </div> {{else}}<div class="{{this.numero}} anonText dados"> {{this.dado}} </div>{{/ifCond}}  </div>
+      <div class=commentBody><div class=commentMetadata><div class=commentsTag unselect>{{#ifCond ../box2.ip this.commentIp}}
+<p class="opComment">OP</p>
+{{else}}
+
+{{/ifCond}}<span class=author>{{this.name}}</span> <p class="tagComment"  id="{{this.tagId}}">{{this.tagId}}</p> </div></div>
+      <div class=commentContent>{{{this.comentario}}}</div></div></div></div>
+
+      <script type="text/javascript">
+      function tagScript{{this.tagId}}(a) {
+        var s = $('#{{this.tagId}}').parent().parent().parent().parent().parent().html().replace(/id="{{this.tagId}}"/g, ' ');
+        $('#commentListId').append("<div class='div-to-display'>" + s + "</div>");
+      }
+      function tagScriptOut{{this.tagId}}(a) {
+        var s = $('#{{this.tagId}}').parent().parent().parent().parent().parent().html();
+        s = "<div class='div-to-display'>" + s + "</div>"
+        document.getElementById('commentListId').innerHTML = '';
+
+      }
+    document.getElementById("{{this.tagId}}").onclick =  function () {
+        document.getElementById("message").value += '>>{{this.tagId}} \n';
+        $(this.hash).css('background', 'green');
+      }
+      </script>
       {{/each}}
+
       <div class="aaa" id="comentar">
       </div>
     <p id="{{box2.id}}"></p>
@@ -138,22 +165,66 @@ document.getElementById("voxDelete").onclick = function() {
   swal({
     title: "¿Seguro sucio?",
     text: "Una vez que borres el vox no se va a poder recuperar",
-    content: "input",
     icon: "warning",
-    buttons: ["No", "Borrar"],
-    dangerMode: true,
-  })
-  .then((willDelete) => {
-    if (willDelete) {
+  buttons: {
+    cancel: "Cancelar",
+    catch: {
+      text: "Eliminar",
+      value: "catch",
+
+    },
+    Banear: true,
+
+  },
+})
+.then((value) => {
+  switch (value) {
+
+    case "Banear":
+    swal({
+      title: "Añadi una justificacion del baneo",
+      text: "Esto es para saber si un usuario fue baneado injustamente o no",
+      content: "input",
+      icon: "warning",
+      buttons: ["No", "Borrar"],
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
 
         $('#myForm').append('<input type="hidden" name="reason" value="' + willDelete + '"  />');
-        $('#myForm').submit();
+        $('#myForm').append('<input type="hidden" name="type" value="ban"  />');
+          $('#myForm').submit();
+
+      }
+    });
+      break;
+
+    case "catch":
+      swal({
+        title: "Añadi una justificacion de la eliminacion",
+        text: "Esto es para saber si el vox fue borrado injustamente o no",
+        content: "input",
+        icon: "warning",
+        buttons: ["No", "Borrar"],
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+
+          $('#myForm').append('<input type="hidden" name="reason" value="' + willDelete + '"  />');
+          $('#myForm').append('<input type="hidden" name="type" value="delete"  />');
+            $('#myForm').submit();
+
+        }
+      });
+      break;
+
+    default:
+      swal("Got away safely!");
+  }
+});
 
 
-    }
-  });
 
 };
-
 </script>
               <script type="text/javascript" src="/js/chat.js"></script>

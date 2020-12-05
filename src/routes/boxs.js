@@ -2,14 +2,22 @@ const express = require("express");
 const router = express.Router();
 const box = require("../models/Box");
 const app = express();
+var geoip = require('geoip-country');
 //const io = require('socket.io').listen(8001);
 const users = require("../models/users");
 const deletedVox = require("../models/DeletedVoxes");
+const blacklist = require("../models/Blacklist");
 const comment = require("../models/Comment");
 const multer = require("multer");
 const path = require("path");
+var customId = require("custom-id");
 const passport = require("passport");
 const fs = require("fs");
+const moment = require("moment");
+moment.locale('es');
+
+
+
 const storage = multer.diskStorage({
   destination:path.join(__dirname, "../public/backgrounds"),
   filename: (req, file, cb) => {
@@ -26,11 +34,11 @@ const multerUpload = multer({
 
 
 router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
-  const { title, description, category}= req.body;
+  var { title, description, category}= req.body;
   const { filename }= req.file;
   const forwarded = req.headers['x-real-ip']
   const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
-  console.log(ip);
+  const comments = 0;
   const errors = [];
   if(!title) {
     errors.push({text: "Titulo vacio"});
@@ -51,11 +59,37 @@ router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
       filename,
       description,
       category,
-      ip
+      ip,
+      comments
     });
 
   } else {
-    const newBox = new box({ title, description, filename, category, ip});
+
+    description = '\n' + description + '\r'
+    var mapObj = {
+       '\n>':"\n <b class='greentext'> >",
+       '\r':"</b> \r",
+    };
+
+       function nl2br(str){
+    var rgx = /(\n>)|(\r)/g;
+    var str =  str.replace(rgx, function(matched){
+      return mapObj[matched];
+      return str;
+    });
+     var str =  str.replace(/((>>)(http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w?&.\/;#~%"=-]*>))/g, "<a href='$1'> $1 </a>").replace(/href='>>/g, "href='").replace(/#http/g, 'http');;
+
+       str = str.replace(/(?:\r\n|\r)/g, '<br>');
+     return str;
+    }
+    var descriptionFiltered =nl2br(description);
+    var dados = false;
+var re = new RegExp("<b class='greentext'> >dados</b>");
+
+if (re.test(descriptionFiltered)) {
+    dados = true;
+}
+    const newBox = new box({ title: title, comments: comments, description: descriptionFiltered, filename: filename, category: category, ip: ip, dados: dados});
     await newBox.save();
     res.redirect("/");
 
@@ -63,13 +97,12 @@ router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
 });
 
 router.get("/", async (req, res) =>{
-    const boxs = await box.find().sort({updatedDate: "desc", });
-    res.render("anuncios/allBoxs", { boxs });
-});
+   var boxs = await box.find().sort({updatedDate: "desc", });
 
 router.get("/voxCategory/:category", async (req, res) =>{
     const boxs = await box.find({category: req.params.category}).sort({updatedDate: "desc", });
-    res.render("anuncios/allBoxs", { boxs });
+
+
 });
 
 router.get("/voxSearch/:title", async (req, res) =>{
@@ -90,15 +123,26 @@ router.get("/admin", async (req, res) =>{
 //});
 
 router.get("/vox/:id",async (req, res) => {
-//  const forwarded = req.headers['x-real-ip']
-//  const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
-//  console.log(ip);
   try {
     const box2 = await box.findById(req.params.id);
     const filteredComment = await comment.find({image_id: req.params.id}).sort({date: "desc", });
-//    const comment2 = comment.find({image_id:req.params.id})
-//    console.log(comment2);
-    res.render("anuncios/viewBox", { box2, filteredComment});
+    var category = box2.category;
+   var categoryMap = [ {a: 'ANM'}, {a: 'HUM'}, {a: 'UFF'}];  var categoryFiltered;
+
+if (categoryMap.some(categoryMap => categoryMap.a === category)) {
+   var categoryMap2 = {
+      'ANM':"Anime",
+      'HUM':"Humanidades",
+      'UFF': "Random", };
+
+categoryFiltered = category.replace(category, function(matched){
+     return categoryMap2[matched];
+     });
+} else {
+categoryFiltered = 'tengo baja de poner todas las categorias'
+   }
+
+    res.render("anuncios/viewBox", { box2, filteredComment, categoryFiltered});
 }
 catch(error) {
     res.render("anuncios/viewBox", { error });
@@ -117,7 +161,6 @@ catch(error) {
 
 
 router.put("/edit/:id", async (req, res) => {
-  console.log(box.filename)
   await unlink(path.resolve("./src/public/background/" + box.filename));
   const {title, description} = req.body;
   await box.findByIdAndUpdate(req.params.id, { title, description});
@@ -126,7 +169,6 @@ router.put("/edit/:id", async (req, res) => {
 router.put("/updateCategory/:id", async (req, res) => {
   const category = req.body;
   const categorias = ["UFF", "POL", "GNR"];
-  console.log(categorias);
   if (req.body.category === "Categoria") {
     res.redirect("/vox/" + req.params.id);
   } else {
@@ -138,39 +180,102 @@ router.put("/updateCategory/:id", async (req, res) => {
 router.delete("/delete/:id", async (req, res) => {
   const box2 = await box.findById(req.params.id);
   var reason = req.body.reason;
+  var type = req.body.type
   var idMod;
-  if (req.isAuthenticated()) {     idMod = req.user._id;   }  else { idMod = "modgolico";    }
-  var voxTitle = box2.title;
-  const newDel = new deletedVox({idMod: idMod, reason: reason, voxTitle: voxTitle});
-   await newDel.save();
-  await fs.unlinkSync(path.resolve("./Voxer/src/public/backgrounds/" + box2.filename));
-  await box.findByIdAndDelete(req.params.id);
-  const commentDelt = await comment.find({image_id: req.params.id});
-  commentDelt.forEach(async (item, i) => {
-    var commentid = item._id;
-    await comment.findByIdAndDelete(item._id);
-  });
+  if (type == "delete") {
+    if (req.isAuthenticated()) {     idMod = req.user._id;   }  else { idMod = "modgolico";    }
+    var voxTitle = box2.title;
+    const newDel = new deletedVox({idMod: idMod, reason: reason, voxTitle: voxTitle});
+     await newDel.save();
+    await fs.unlinkSync(path.resolve("./Voxer/src/public/backgrounds/" + box2.filename));
+    await box.findByIdAndDelete(req.params.id);
+    const commentDelt = await comment.find({image_id: req.params.id});
+    commentDelt.forEach(async (item, i) => {
+      var commentid = item._id;
+      await comment.findByIdAndDelete(item._id);
+    });
+  } else if (type == "ban") {
+    if (req.isAuthenticated()) {     idMod = req.user._id;   }  else { idMod = "modgolico";    }
+    var ip = box2.ip;
+    var voxTitle = box2.title;
+    const newDel = new deletedVox({idMod: idMod, reason: reason, voxTitle: voxTitle});
+     await newDel.save();
+    const newBan = new blacklist({idMod: idMod, reason: reason, ip: ip});
+     await newBan.save();
+    await fs.unlinkSync(path.resolve("./Voxer/src/public/backgrounds/" + box2.filename));
+    await box.findByIdAndDelete(req.params.id);
+    const commentDelt = await comment.find({image_id: req.params.id});
+    commentDelt.forEach(async (item, i) => {
+      var commentid = item._id;
+      await comment.findByIdAndDelete(item._id);
+    });
+  }
 
   res.redirect("/");
 });
 
+router.get("/vox/:id/comment/img/:filename", async (req, res) =>{
+    const boxs = await box.findById(req.params.id);
+    res.render("anuncios/imageView", { boxs });
+});
+
+
 router.post("/vox/:id/comment", async(req, res) =>{
   const box2 = await box.findById(req.params.id);
+  const comments = (box2.comments += 1);
+
+if (comments >= 700) {
   await box.findByIdAndUpdate({ _id: box2._id },
-    { updatedDate: Date.now()});
-  console.log(box2.updatedDate);
+    { comments: comments});
+} else {
+  await box.findByIdAndUpdate({ _id: box2._id },
+    {updatedDate: Date.now(), comments: comments});
+}
+
     if (box2) {
-   const { comentario }= req.body;
+   var { comentario }= req.body;
+   var comentario2 = req.body.comentario;
+   comentario2 = '\n' + comentario2 + '\r'
+
+
+   var mapObj = {
+      '\n>':"\n <b class='greentext'> >",
+      '\r':"</b> \r",
+   };
+
+      function nl2br(str){
+   var rgx = /(\n>)|(\r)/g;
+   var str =  str.replace(rgx, function(matched){
+     return mapObj[matched];
+     return str;
+   });
+    var str =  str.replace(/((>>)(http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w?&.\/;#~%"=-]*>))/g, "<a href='$1'> $1 </a>").replace(/href='>>/g, "href='");
+       str = str.replace(/((>>)[\w?=&.\/-;#~%-]+(?![\w?&.\/;#~%"=-]*>))/g, "<a href='#$1'  onmouseout='tagScriptOut$1()' onmouseover='tagScript$1()'> $1 </a>").replace(/#>>/g, '#').replace(/tagScript>>/g, 'tagScript').replace(/tagScriptOut>>/g, 'tagScriptOut').replace(/#http/g, 'http');
+      str = str.replace(/(?:\r\n|\r)/g, '<br>');
+    return str;
+   }
+   var comentario=nl2br(comentario2);
    var name; if (req.isAuthenticated()) {//     const name = req.user.name;              Para tener el nombre de usuario    <------------
       name = "Anonimo";   }  else { name = "Anonimo";    }
    const image_id = req.params.id;
-   console.log(image_id);
+
    var numero = Math.floor(Math.random() * 112) + 1;
    if (numero >= 1 && numero <= 25) {
      numero = "avatarColoryellow"
    }  else if (numero >= 26 && numero <= 50) {numero = "avatarColorred" }  else if (numero >= 51 && numero <= 75) {numero = "avatarColorgreen"}  else if (numero >= 76 && numero <= 100) {        numero = "avatarColorblue"  }  else if (numero >= 101 && numero <= 105) {        numero = "avatarColorMulti"  }  else if (numero == 106) {numero = "avatarColorBlack"  }  else if (numero == 107) {numero = "avatarColorWhite"  }else if (numero >= 108 && numero <= 112){  numero = "avatarColorInvertido"  }
-   const newCommentt = new comment({name: name, comentario: comentario, image_id: image_id, numero: numero});
+   var id = customId({});
+   var commentOp = false;
+   const forwarded = req.headers['x-real-ip']
+   const commentIp = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
+   if (box2.ip = commentIp) {
+     commentOp = true
+   }
+
+    var dados = Math.floor(Math.random() * 10);
+
+   const newCommentt = new comment({name: name, comentario: comentario, image_id: image_id, numero: numero, tagId: id, commentIp: commentIp, commentOp: commentOp, dado: dados});
     await newCommentt.save();
+
     res.redirect("/vox/" + image_id);
   }
 

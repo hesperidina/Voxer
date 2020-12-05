@@ -1,6 +1,6 @@
 const express = require ("express");
 const path = require("path");
-const handlebars = require ("handlebars");
+const Handlebars = require ("handlebars");
 const {allowInsecurePrototypeAccess} = require ("@handlebars/allow-prototype-Access");
 const expresshandlebars = require ("express-handlebars");
 const methodOverride = require("method-override");
@@ -8,7 +8,6 @@ const session = require ("express-session");
 const passport = require ("passport");
 const { format } = require("timeago.js");
 const SocketIO = require("socket.io");
-
 const multer = require("multer");
 const storage = multer.diskStorage({
   destination:path.join(__dirname, "public/uploads"),
@@ -28,19 +27,25 @@ app.set("port", process.env.PORT || 3000)
 app.set("views", path.join(__dirname, "views"))
 app.engine(".hbs", expresshandlebars({
   handlebars:
-  allowInsecurePrototypeAccess(handlebars),
+  allowInsecurePrototypeAccess(Handlebars),
   defaultLayout: "main",
   layoutDir: path.join(app.get("views"), "layouts"),
   partialsDir: path.join(app.get("views"), "partials"),
-  extname: ".hbs"
+  extname: ".hbs",
+  helpers: Handlebars.helpers
 }));
-
+Handlebars.registerHelper("ifCond", function (v1, v2, options) {
+  if (v1 === v2) {
+    return options.fn(this);
+  }
+  return options.inverse(this);
+});
 app.set("view engine", ".hbs");
 //Middlewares
 app.use(express.urlencoded({extended: false}));
 app.use(methodOverride("_method"));
 app.use(session({
-  secret: "menemycavallo",
+  secret: "tilltheeggs",
   resave: true,
   saveUninitialized: true
 }));

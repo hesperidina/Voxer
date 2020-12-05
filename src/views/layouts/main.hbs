@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <title>Voxer {{#if box2.title}}| {{box2.title}} {{/if}}</title>
-    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
               <link rel="stylesheet" href="/css/scrollbar.css"/>
@@ -14,9 +14,10 @@
               <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
               <link rel="stylesheet" href="/css/font-awesome.min.css"/>
               <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css">
-              <script defer src="theme.js"></script>
               <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet"/>
               <link rel="shortcut icon" href="/resources/voxerlogo.png">
+              <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
   </head>
   <meta
      name='viewport'
@@ -28,6 +29,11 @@
       $("#alert-modal").modal();
      });
     </script>
+    <style media="screen">
+    * {
+      scroll-behavior: smooth;
+    }
+    </style>
     <main>
       {{> errors }}
       {{ modals }}

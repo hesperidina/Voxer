@@ -1,18 +1,24 @@
 /* Ancho */
 ::-webkit-scrollbar {
   width: 10px;
+  transition: 1s;
 }
 
   /* Parte de atras */
 ::-webkit-scrollbar-track {
-  background: #4a4a4a
+  background: #4a4a4a;
+  transition: 1s;
+
 }
 
 /* Barra de scroll */
 ::-webkit-scrollbar-thumb {
   background: #696969;
+  transition: 1s;
+
 }
 
 ::-webkit-scrollbar-thumb:hover {
     border-radius: 15px;
+    transition: 1s;
 }
