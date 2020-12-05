@@ -126,21 +126,28 @@ router.get("/vox/:id",async (req, res) => {
   try {
     const box2 = await box.findById(req.params.id);
     const filteredComment = await comment.find({image_id: req.params.id}).sort({date: "desc", });
-    var category = box2.category;
-   var categoryMap = [ {a: 'ANM'}, {a: 'HUM'}, {a: 'UFF'}];  var categoryFiltered;
+   boxs.forEach((boxs, i) => {
+     var ip = boxs.ip;
+var geo = geoip.lookup(ip);
 
-if (categoryMap.some(categoryMap => categoryMap.a === category)) {
-   var categoryMap2 = {
-      'ANM':"Anime",
-      'HUM':"Humanidades",
-      'UFF': "Random", };
+if (geo == null) {
+  boxs.flag = "ae";
+}
+else {
+  boxs.flag = geo.country;
+}
+     boxs.date2 = moment( boxs.date).fromNow();
+     var categoryMap2 = {
+        'ANM':"Anime",
+        'HUM':"Humanidades",
+        'UFF': "Random", };
 
-categoryFiltered = category.replace(category, function(matched){
-     return categoryMap2[matched];
-     });
-} else {
-categoryFiltered = 'tengo baja de poner todas las categorias'
-   }
+  categoryFiltered = category.replace(category, function(matched){
+   });
+
+    res.render("anuncios/allBoxs", { boxs });
+});
+
 
     res.render("anuncios/viewBox", { box2, filteredComment, categoryFiltered});
 }
