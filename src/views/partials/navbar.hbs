@@ -240,8 +240,9 @@ function searchModal() {
         <div class="card-header">
           <form action="/publicarAnuncio" method="post" enctype="multipart/form-data">
             <div>
-              <input type="text" name="title" class="form-control tituloDeAnuncio" minlength="0" maxlength="50" placeholder="Inserte un titulo" autofocus>
-              <!-- File input field -->
+              <input type="text" name="title" class="form-control tituloDeAnuncio" minlength="0" maxlength="50" placeholder="Inserte un titulo" autofocus> <br> <br>
+              <input class="video_question" type="checkbox" name="video_question" value="1" /> Subir video de youtube.
+              <input type="text" name="videoUrl" id="videoUrl" class="form-control tituloDeAnuncio longitud2" minlength="0" maxlength="50" placeholder="Ej: https://www.youtube.com/watch?v=Kc506G9gRp0">
               <input class="distancia" type="file" id="file" name="imgUrl" onchange="return fileValidation()"/>
 
               <!-- Image preview -->
@@ -439,12 +440,24 @@ function closeNav() {
   $(".fademe").removeClass('animated');
   numeroNav = 0;
 }
+
+$("#videoUrl").hide();
+$(".video_question").click(function() {
+    if($(this).is(":checked")) {
+        $("#videoUrl").show();
+        $("#file").hide();
+    } else {
+      $("#videoUrl").hide();
+      $("#file").show();
+    }
+});
+
 function fileValidation(){
 var fileInput = document.getElementById('file');
 var filePath = fileInput.value;
-var allowedExtensions = /(.jpg|.jpeg|.png|.gif)$/i;
+var allowedExtensions = /(.jpg|.jpeg|.png|.gif|.webm|.mp4)$/i;
 if(!allowedExtensions.exec(filePath)){
-  swal('Archivo no soportado.', 'Podes subir los siguientes formator de archivos .jpeg / .jpg / .png / .gif', 'error');
+  swal('Archivo no soportado.', 'Podes subir los siguientes formator de archivos .jpeg / .jpg / .png / .gif / .mp4 / .webm' , 'error');
 
     fileInput.value = '';
     return false;

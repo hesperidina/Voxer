@@ -95,7 +95,15 @@
                                 <figure class="imagen2">
                     <div class=" imagen">
                         <a href="/vox/{{box2.id}}/comment/img/{{box2.filename}}" >
+                          {{#ifCond box2.video true}}
+                          {{#ifCond box2.videoUrl true}}
+                          <iframe src="{{box2.filename}}"></iframe>
+                          {{else}}
+                          <iframe src="/backgrounds/{{box2.filename}}"></iframe>
+                          {{/ifCond}}
+                          {{else}}
                             <img src="/backgrounds/{{box2.filename}}">
+                            {{/ifCond}}
                         </a>
                                                                                 </div>
                                     </figure>

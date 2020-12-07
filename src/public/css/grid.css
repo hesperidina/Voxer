@@ -9,8 +9,6 @@
 
 .jijo {
   font-family: 'Lato', arial;
-  overflow-x: hidden;
-
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   grid-template-rows: repeat(1000, calc(100vw / 6));
@@ -191,7 +189,7 @@ box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05);;
 
 
 #inicio {
-  background-image: url("/backgrounds/Logovoxer.png") ;
+  background-image: url("/backgrounds/Logovoxer.jpg") ;
 }
 .box:hover {
   -webkit-transform:scale(1.05);

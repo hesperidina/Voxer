@@ -3,6 +3,7 @@ const router = express.Router();
 const box = require("../models/Box");
 const app = express();
 var geoip = require('geoip-country');
+var ffmpeg = require('ffmpeg');
 //const io = require('socket.io').listen(8001);
 const users = require("../models/users");
 const deletedVox = require("../models/DeletedVoxes");
@@ -13,13 +14,14 @@ const path = require("path");
 var customId = require("custom-id");
 const passport = require("passport");
 const fs = require("fs");
+const sharp = require('sharp');
 const moment = require("moment");
 moment.locale('es');
 
 
 
 const storage = multer.diskStorage({
-  destination:path.join(__dirname, "../public/backgrounds"),
+  destination :path.join(__dirname, "../public/backgrounds"),
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
   }
@@ -35,7 +37,44 @@ const multerUpload = multer({
 
 router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
   var { title, description, category}= req.body;
-  const { filename }= req.file;
+
+  var videoUrl = req.body.videoUrl
+  var video;
+  var videoUrlVox
+if (req.file == undefined) {
+  if (videoUrl != '') {
+    const videoReplace= /^(https\:\/\/www.youtube.com\/watch\?v=)/g;
+    videoUrlExport = videoUrl.replace(videoReplace, '');
+    console.log(videoUrlExport);
+    filename = 'https://www.youtube.com/embed/' + videoUrlExport;
+    video = true;
+    videoUrlVox = true;
+      if (videoUrl == videoUrlExport) {
+      console.log("Error en la subida");
+    } else {
+      console.log("Video subido")
+    }
+  } else {}
+}
+
+
+ else {
+    var { filename }= req.file;
+    var extensionImg = filename.split('.').pop();
+    if (extensionImg == 'jpg' | 'png' | 'gif' | 'jpeg' ) {
+      sharp(req.file.path).resize(275, 275).toFormat('jpeg').jpeg({quality: 40,}).toFile("src/public/backgrounds/compression" + req.file.filename, function(error) {
+        console.log(error);
+      });
+      video = false;
+    } else if (extensionImg == 'webm' | 'mp4') {
+      video = true;
+    }
+}
+console.log(filename);
+
+
+
+
   const forwarded = req.headers['x-real-ip']
   const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
   const comments = 0;
@@ -54,15 +93,7 @@ router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
   }
   if (errors.length > 0) {
     res.render("anuncios/allBoxs", {
-      errors,
-      title,
-      filename,
-      description,
-      category,
-      ip,
-      comments
-    });
-
+      errors,  title,    filename,  description,    category,    ip,    comments  });
   } else {
 
     description = '\n' + description + '\r'
@@ -89,7 +120,14 @@ var re = new RegExp("<b class='greentext'> >dados</b>");
 if (re.test(descriptionFiltered)) {
     dados = true;
 }
-    const newBox = new box({ title: title, comments: comments, description: descriptionFiltered, filename: filename, category: category, ip: ip, dados: dados});
+
+console.log(video);
+console.log(filename);
+
+
+var filenameCompressed = "compression" + filename;
+
+    const newBox = new box({ title: title, comments: comments, description: descriptionFiltered, filename: filename, video: video, videoUrl: videoUrlVox, filenameCompressed: filenameCompressed, category: category, ip: ip, dados: dados});
     await newBox.save();
     res.redirect("/");
 
@@ -99,19 +137,12 @@ if (re.test(descriptionFiltered)) {
 router.get("/", async (req, res) =>{
    var boxs = await box.find().sort({updatedDate: "desc", });
    boxs.forEach((boxs, i) => {
-     var ip = boxs.ip;
-var geo = geoip.lookup(ip);
-
-if (geo == null) {
-  boxs.flag = "ae";
-}
-else {
-  boxs.flag = geo.country;
-}
      boxs.date2 = moment( boxs.date).fromNow();
    });
-
     res.render("anuncios/allBoxs", { boxs });
+
+
+    //ffmpeg -ss "$screenshot_time" -i $(youtube-dl -f 22 --get-url "$youtube_url") -vframes 1 -q:v 2 "$output_file"
 });
 
 router.get("/voxCategory/:category", async (req, res) =>{
@@ -256,7 +287,7 @@ router.delete("/delete/:id", async (req, res) => {
     var voxTitle = box2.title;
     const newDel = new deletedVox({idMod: idMod, reason: reason, voxTitle: voxTitle});
      await newDel.save();
-    await fs.unlinkSync(path.resolve("./Voxer/src/public/backgrounds/" + box2.filename));
+    await fs.unlinkSync(path.resolve("src/public/backgrounds/" + box2.filename));
     await box.findByIdAndDelete(req.params.id);
     const commentDelt = await comment.find({image_id: req.params.id});
     commentDelt.forEach(async (item, i) => {
@@ -271,7 +302,7 @@ router.delete("/delete/:id", async (req, res) => {
      await newDel.save();
     const newBan = new blacklist({idMod: idMod, reason: reason, ip: ip});
      await newBan.save();
-    await fs.unlinkSync(path.resolve("./Voxer/src/public/backgrounds/" + box2.filename));
+    await fs.unlinkSync(path.resolve("src/public/backgrounds/" + box2.filename));
     await box.findByIdAndDelete(req.params.id);
     const commentDelt = await comment.find({image_id: req.params.id});
     commentDelt.forEach(async (item, i) => {

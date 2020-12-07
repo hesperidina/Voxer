@@ -3,7 +3,7 @@
     <h2 class="relleno">
             <div id=one></div>
     </h2>
-    <main class="jijo">
+    <main class="jijo" id="voxes">
 
 
       <a href="/about" class=box id=inicio>        <div class="displayTags">
@@ -13,61 +13,77 @@
 
 
               </div><div class="titulo row-fluid">¿Nuevo en Voxer?</div></a>
-      {{#each boxs}}
-      <a href="/vox/{{_id}}" class="box" id="jijo{{_id}}" > <div class="row-fluid">
-        <div class="displayTags">
-          <div class="categoriaDisplay">
-            <p>{{date2}}</p>
-  <!          <img src="/flagGif/{{flag}}.gif" alt="">
-          </div>
-          <div class="bordeVox">  </div>
-          <div class="categoriaDisplay">
-            <p>{{category}}</p>
-          </div>
-          <div class="comment2vox">
-            <i class="fas fa-comment commentvox"></i><p class="commentvox">{{comments}}</p>
-          </div>
-        </div>
-        <div class="division">
-          <div class="titulo row-fluid">{{title}}</div>
-        </div> </div></a>
-      <style media="screen">
-        #jijo{{_id}} {
-            background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25)), url("/backgrounds/{{filename}}");
-            background-repeat: no-repeat;
+
+
+  </div>
+  <script type="text/javascript">
+
+  var voxTitle = [];
+  var voxId = [];
+  var voxCategory = [];
+  var voxDate2 = [];
+  var voxComments = [];
+  var voxFilename = [];
+  {{#each boxs}}
+  voxTitle.push("{{this.title}}")
+  voxId.push("{{this.id}}")
+  voxCategory.push("{{this.category}}")
+  voxComments.push("{{this.comments}}")
+  voxDate2.push("{{this.date2}}")
+  voxFilename.push("{{#if this.filenameCompressed}}{{this.filenameCompressed}}{{else}}{{#if this.filename}}{{this.filename}}{{else}}voxerDefault.jpeg{{/if}}{{/if}}")
+  {{/each}}
+
+
+
+    function loadVox() {
+      for (var i = 0; i < 17; i++) {
+        // i < x - sticky count
+        if (voxTitle[i] == undefined) {
+
+        } else {
+          document.getElementById("voxes").innerHTML += (        '<a href="/vox/' + voxId[i] +'" class="box" id="jijo' + voxId[i] +'" style=background-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.25)),url("/backgrounds/' + voxFilename[i] + '")> <div class="row-fluid"><div class="displayTags"><div class="categoriaDisplay"><p>' + voxDate2[i] +'</p></div><div class="bordeVox">  </div><div class="categoriaDisplay"><p>' + voxCategory[i] +'</p></div><div class="comment2vox"><i class="fas fa-comment commentvox"></i><p class="commentvox">' + voxComments[i] +'</p></div></div><div class="division"><div class="titulo row-fluid">' + voxTitle[i] +'</div></div> </div></a>');
+        }
+      };
+    }
+    loadVox();
+
+var x1 = 18
+var x2 = 30
+
+function loadVoxScroll() {
+  for (var i = x1; i < x2; i++) {
+    if (voxTitle[i] == undefined) {
+    } else {
+      document.getElementById("voxes").innerHTML += (        '<a href="/vox/' + voxId[i] +'" class="box" id="jijo' + voxId[i] +'" style=background-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.25)),url("/backgrounds/' + voxFilename[i] + '")> <div class="row-fluid"><div class="displayTags"><div class="categoriaDisplay"><p>' + voxDate2[i] +'</p></div><div class="bordeVox">  </div><div class="categoriaDisplay"><p>' + voxCategory[i] +'</p></div><div class="comment2vox"><i class="fas fa-comment commentvox"></i><p class="commentvox">' + voxComments[i] +'</p></div></div><div class="division"><div class="titulo row-fluid">' + voxTitle[i] +'</div></div> </div></a>');
+
+    }
+  };
+
+}
+    $(window).scroll(async function() {
+   if(window.scrollY + window.innerHeight >= document.documentElement.scrollHeight) {
+     await setTimeout(loadVoxScroll(), 2000);
+       window.x1 += 16; window.x2 += 16;
+
+   }
+});
+
+  </script>
+
+        <style>
+        .BOTON {
+          color: white;
+        }
+        .titulo {
+          color: white;
+        }
+        .BOTON:hover {
+          color: white;
         }
 
-      </style>
-        {{else}}
-        <div class="card-body">
-          <p>No hay anuncios con este nombre.</p>
-          <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        Podes crear un anuncio haciendo click <a href="#" class="linq" data-toggle="modal" data-target="#myModal"><strong>aca!</a></strong>
-
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-        </div>
-        {{/each}}
-
-
-
-      <style>
-      .BOTON {
-        color: white;
+        </style>
+        <style media="screen">
+          .linq {
+        color: black;
       }
-      .titulo {
-        color: white;
-      }
-      .BOTON:hover {
-        color: white;
-      }
-
-      </style>
-      <style media="screen">
-        .linq {
-      color: black;
-    }
-      </style>
+        </style>

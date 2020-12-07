@@ -15,8 +15,9 @@ y dejar la pagina en codigo abierto para que el proyecto sea continuado y mejora
 - [x] Comandos (>dados, >idunico)
 - [x] Barra de busqueda
 - [x] Banderas y fechas
+- [x] Videos y WebM (falta ponerlo en los comentarios de los voxs)
 - [ ] Notificar errores (Por ejemplo si no se sube una imagen al crear un vox que se notifique este error)
-- [ ] Carga progresiva (Ir cargando los voxs a medida que se scrollea)
+- [x] Carga progresiva (Ir cargando los voxs a medida que se scrollea)
 - [ ] Sesion con cookies
 - [ ] Implementar SocketIO
 - [ ] Organizar un poco el codigo y comentarlo

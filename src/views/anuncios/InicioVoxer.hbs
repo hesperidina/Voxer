@@ -1,0 +1,20 @@
+<div class="container">
+
+</div>
+
+<script type="text/javascript">
+var voxes = {{boxs}}
+var numLoaded = 0
+  function loadVox(numVox = 10) {
+    let i = 0;
+    while (i < numVox) {
+      numLoaded += 1;
+      const voxLoad = document.createElement('voxLoad');
+      voxLoad.src = voxed[numLoaded].title;
+    }
+    container.appendChild(voxLoad);
+    i++
+  }
+
+  loadVox();
+</script>

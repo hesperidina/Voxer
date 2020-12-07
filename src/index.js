@@ -1,5 +1,6 @@
 const express = require ("express");
 const path = require("path");
+const sharp = require('sharp');
 const Handlebars = require ("handlebars");
 const {allowInsecurePrototypeAccess} = require ("@handlebars/allow-prototype-Access");
 const expresshandlebars = require ("express-handlebars");
@@ -34,6 +35,12 @@ app.engine(".hbs", expresshandlebars({
   extname: ".hbs",
   helpers: Handlebars.helpers
 }));
+Handlebars.registerHelper('times', function(n, block) {
+    var accum = '';
+    for(var i = 0; i < n; ++i)
+        accum += block.fn(i);
+    return accum;
+});
 Handlebars.registerHelper("ifCond", function (v1, v2, options) {
   if (v1 === v2) {
     return options.fn(this);
@@ -81,6 +88,11 @@ const server = app.listen(app.get("port"), () => {
   console.log('Node version is: ' + process.version);
 
 });
+
+
+
+
+
 const io = SocketIO(server);
 //SocketIO
 io.on("connection", (socket) => {

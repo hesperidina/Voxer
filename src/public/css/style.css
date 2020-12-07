@@ -76,7 +76,7 @@ position:fixed;
 width:60px;
 height:60px;
 bottom:40px;
-right:40px;
+right:4000px;
 background-color:#ca8bcc;
 color:#FFF;
 border-radius:100px;
@@ -85,20 +85,17 @@ z-index: -10;
 box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.55);
 
 }
-.my-float{
-  position: relative;
-  top: -10px;
-  color: #242424;
-  text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.75);
 
-font-size: 40px;
+html {
+  background-color: #141418;
+  z-index: 1
 }
 body {
   color: black;
   background-color: white;
   margin: 0;
   padding: 0;
-      overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 
