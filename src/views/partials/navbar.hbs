@@ -1,6 +1,6 @@
 
 <link rel="stylesheet" href="/css/style.css"/>
-<a class="float" id="navbardesp" ><i class="fa fa-plus my-float"></i></a>
+<a class="float" id="navbardesp" ><i class="fas fa-bars my-float"></i></a>
 
 <div class="fademe" onclick="closeNav()"></div>
 
@@ -242,7 +242,9 @@ function searchModal() {
             <div>
               <input type="text" name="title" class="form-control tituloDeAnuncio" minlength="0" maxlength="50" placeholder="Inserte un titulo" autofocus> <br> <br>
               <input class="video_question" type="checkbox" name="video_question" value="1" /> Subir video de youtube.
-              <input type="text" name="videoUrl" id="videoUrl" class="form-control tituloDeAnuncio longitud2" minlength="0" maxlength="50" placeholder="Ej: https://www.youtube.com/watch?v=Kc506G9gRp0">
+<div id="videoUrl">
+  <input type="text" name="videoUrl" id="videoUrl2" class="form-control tituloDeAnuncio longitud2 " minlength="0" maxlength="50" placeholder="Ej: https://www.youtube.com/watch?v=Kc506G9gRp0">   <span class="btn btn-primary " onclick="YTverification()">Verificar</span>
+</div>
               <input class="distancia" type="file" id="file" name="imgUrl" onchange="return fileValidation()"/>
 
               <!-- Image preview -->
@@ -426,11 +428,14 @@ var numeroNav = 0;
     if (numeroNav == 0) {
       $(".navbar").addClass('animated');
       $(".fademe").addClass('animated');
+      $(".float").addClass('hiddenMenu');
       numeroNav += 1
     } else {
 
       $(".navbar").removeClass('animated');
       $(".fademe").removeClass('animated');
+      $(".float").removeClass('hiddenMenu');
+
       numeroNav = 0;
     }
 });
@@ -438,6 +443,7 @@ var numeroNav = 0;
 function closeNav() {
   $(".navbar").removeClass('animated');
   $(".fademe").removeClass('animated');
+  $(".float").removeClass('hiddenMenu')
   numeroNav = 0;
 }
 
@@ -472,6 +478,22 @@ if(!allowedExtensions.exec(filePath)){
     }
 }
 }
+function YTverification(){
+  name = document.getElementById("videoUrl2").value
+  var name2 = name.replace(/^(https\:\/\/www.youtube.com\/watch\?v=)/g, "");
 
+  if (!name) {
+    document.getElementById('imagePreview').innerHTML = '<p>No subiste ningun video</p>';
+
+  } else if (name2 == name) {
+    document.getElementById('imagePreview').innerHTML = '<p>Asegurate de subir un video de Youtube</p>';
+
+  }
+  else {
+      name2 = name2.substring(0, 11);
+    $("#videoUpload").val(name);
+    document.getElementById('imagePreview').innerHTML = '<iframe src="https://www.youtube.com/embed/'+ name2 +'"></iframe>';
+  }
+}
 
 </script>

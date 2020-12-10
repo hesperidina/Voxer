@@ -3,7 +3,10 @@ const router = express.Router();
 const box = require("../models/Box");
 const app = express();
 var geoip = require('geoip-country');
-var ffmpeg = require('ffmpeg');
+const ffmpegPath = require('@ffmpeg-installer/ffmpeg').path;
+const ffmpeg = require('fluent-ffmpeg');
+ffmpeg.setFfmpegPath(ffmpegPath);
+const extractFrames = require('ffmpeg-extract-frames')
 //const io = require('socket.io').listen(8001);
 const users = require("../models/users");
 const deletedVox = require("../models/DeletedVoxes");
@@ -20,6 +23,35 @@ moment.locale('es');
 
 
 
+var mapObj = {
+   '\n>':"\n <b class='greentext'> >",
+   '\r':"</b> \r",
+};
+
+function dado(){
+  var numero = Math.floor(Math.random() * 112) + 1;
+  if (numero >= 1 && numero <= 25) {
+    numero = "avatarColoryellow"
+  }  else if (numero >= 26 && numero <= 50) {numero = "avatarColorred" }  else if (numero >= 51 && numero <= 75) {numero = "avatarColorgreen"}  else if (numero >= 76 && numero <= 100) {        numero = "avatarColorblue"  }  else if (numero >= 101 && numero <= 105) {        numero = "avatarColorMulti"  }  else if (numero == 106) {numero = "avatarColorBlack"  }  else if (numero == 107) {numero = "avatarColorWhite"  }else if (numero >= 108 && numero <= 112){  numero = "avatarColorInvertido"  }
+return numero;
+}
+
+function nl2br2(str){
+var  str = str.replace(/((>>)[\w?=&.\/-;#~%-]+(?![\w?&.\/;#~%"=-]*>))/g, "<a href='#$1'  onmouseout='tagScriptOut$1()' onmouseover='tagScript$1()'> $1 </a>").replace(/#>>/g, '#').replace(/tagScript>>/g, 'tagScript').replace(/tagScriptOut>>/g, 'tagScriptOut').replace(/#http/g, 'http');
+return str;
+}
+function nl2br(str){
+var rgx = /(\n>)|(\r)/g;
+var str =  str.replace(rgx, function(matched){
+return mapObj[matched];
+return str;
+});
+str = str.replace(/((\[)[\w?=&nbsp .\/-;#~%-]+(?![\w?&.\/;#~%"&nbsp=-]*>)(\]))/g, "<span class=hiddenText> $1 </span>");
+str =  str.replace(/((>>)(http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w?&.\/;#~%"=-]*>))/g, "<a href='$1'> $1 </a>").replace(/href='>>/g, "href='").replace(/#http/g, 'http');;
+str = str.replace(/(?:\r\n|\r)/g, '<br>');
+return str;
+}
+
 const storage = multer.diskStorage({
   destination :path.join(__dirname, "../public/backgrounds"),
   filename: (req, file, cb) => {
@@ -32,87 +64,93 @@ const ctrl = {};
 const multerUpload = multer({
   storage: storage,
   dest: path.join(__dirname, "../public/backgrounds")
-}).single("imgUrl");
+})
 
 
-router.post("/publicarAnuncio", multerUpload, async (req, res) =>{
+router.post("/publicarAnuncio", multerUpload.single("imgUrl"), async (req, res) =>{
   var { title, description, category}= req.body;
-
   var videoUrl = req.body.videoUrl
   var video;
-  var videoUrlVox
+  var videoUrlVox;
+  const errors = [];
+
 if (req.file == undefined) {
   if (videoUrl != '') {
     const videoReplace= /^(https\:\/\/www.youtube.com\/watch\?v=)/g;
     videoUrlExport = videoUrl.replace(videoReplace, '');
-    console.log(videoUrlExport);
-    filename = 'https://www.youtube.com/embed/' + videoUrlExport;
-    video = true;
-    videoUrlVox = true;
+
       if (videoUrl == videoUrlExport) {
-      console.log("Error en la subida");
+        errors.push({text: "El video no existe"})
     } else {
-      console.log("Video subido")
+      var filename = videoUrlExport.substring(0, 11);
+      var filenameCompressed = videoUrlExport.substring(0, 11);
+      video = true;
+      videoUrlVox = true;
     }
-  } else {}
+  }
 }
 
 
  else {
-    var { filename }= req.file;
+   var { filename }= req.file;
+   var filenameCompressed = filename;
     var extensionImg = filename.split('.').pop();
-    if (extensionImg == 'jpg' | 'png' | 'gif' | 'jpeg' ) {
+    console.log(extensionImg);
+    if (extensionImg == 'jpg' | extensionImg ==  'png' | extensionImg ==  'gif' | extensionImg ==  'jpeg' ) {
       sharp(req.file.path).resize(275, 275).toFormat('jpeg').jpeg({quality: 40,}).toFile("src/public/backgrounds/compression" + req.file.filename, function(error) {
         console.log(error);
+        var filenameCompressed = "compression" + filename;
       });
       video = false;
-    } else if (extensionImg == 'webm' | 'mp4') {
+    } else if (extensionImg == 'webm' | extensionImg ==  'mp4') {
       video = true;
+      var filenameCompressed = req.file.filename.toUpperCase().replace(/(.MP4)|(.WEBM)/g, '.jpg')
+    await extractFrames({
+        input: req.file.path,
+
+        output: 'src/public/backgrounds/' + filenameCompressed,
+        offsets: [
+          1,
+        ]
+      })
+
     }
 }
-console.log(filename);
-
-
-
 
   const forwarded = req.headers['x-real-ip']
   const ip = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
   const comments = 0;
-  const errors = [];
+
   if(!title) {
     errors.push({text: "Titulo vacio"});
-  }
+  }  else if(title.length > 50) {
+      errors.push({text: "El titulo tiene que ser menor a 50 caracteres"});
+    }
   if(!description) {
     errors.push({text: "Descripcion vacia"});
-  }
+  }  else if(description.length > 3000) {
+      errors.push({text: "La descripcion tiene que ser menor a 3000 caracteres"});
+    }
   if(!filename) {
     errors.push({text: "No subiste un archivo"});
   }
-  if(!category) {
+  var categoriaBinario = 0;
+  var arrayCategory = ["ANM", "ART", "AUR", "CIE", "CNJ", "CYTV", "DEP", "DES", "ECO", "GMR", "HISP", "HIS", "HMR", "HUM" , "INT", "ITA", "LIT", "LUG", "MUS", "NOT", "OFF", "OMN", "PAR", "POL", "PRG", "SMFG", "TEC", "UFF", "UMA", "WEBM", "YTB"]
+  var categoria = category
+  arrayCategory.forEach((item, i) => {
+    if(item == categoria) {
+    categoriaBinario = 1
+    }
+  });
+  if(categoriaBinario == 0) {
     errors.push({text: "No elegiste la categoria"});
   }
   if (errors.length > 0) {
-    res.render("anuncios/allBoxs", {
-      errors,  title,    filename,  description,    category,    ip,    comments  });
+      var boxs = await box.find().sort({updatedDate: "desc", });
+       res.render("anuncios/allBoxs", { boxs, errors });
   } else {
-
     description = '\n' + description + '\r'
-    var mapObj = {
-       '\n>':"\n <b class='greentext'> >",
-       '\r':"</b> \r",
-    };
 
-       function nl2br(str){
-    var rgx = /(\n>)|(\r)/g;
-    var str =  str.replace(rgx, function(matched){
-      return mapObj[matched];
-      return str;
-    });
-     var str =  str.replace(/((>>)(http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w?&.\/;#~%"=-]*>))/g, "<a href='$1'> $1 </a>").replace(/href='>>/g, "href='").replace(/#http/g, 'http');;
-
-       str = str.replace(/(?:\r\n|\r)/g, '<br>');
-     return str;
-    }
     var descriptionFiltered =nl2br(description);
     var dados = false;
 var re = new RegExp("<b class='greentext'> >dados</b>");
@@ -120,14 +158,53 @@ var re = new RegExp("<b class='greentext'> >dados</b>");
 if (re.test(descriptionFiltered)) {
     dados = true;
 }
+var categoryMap2 = {
+  "ANM" : "Anime",
+  "ART" : "ART",
+  "AUT" : "Autos",
+  "CIE" : "Ciencia",
+  "CNJ" : "Consejos",
+  "CYTV" : "Cine Y TV",
+  "DEP" : "Deportes",
+  "DES" : "Descargas",
+  "ECO" : "Economia",
+  "GMR" : "Juegos",
+  "HIS" : "Hispanos",
+  "HIS" : "Historias",
+  "HMR" : "Humor",
+  "HUM" : "Humanidades",
+  "INT" : "Internacional",
+  "ITA" : "Italiani",
+  "LIT" : "Literatura",
+  "LUG" : "Lugares",
+  "MUS" : "Musica",
+  "NOT" : "Noticias",
+  "OFF" : "General",
+  "OMN" : "Omniverso",
+  "PAR" : "Paranormal",
+  "POL" : "Politica",
+  "PRG" : "Preguntas",
+  "SMFG" : "Samefag",
+  "TEC" : "Tecnologia",
+  "UFF" : "Random",
+  "UMA" : "Gastronomia",
+  "WEBM" : "WEBM",
+  "YTB" : "Youtube",};
 
-console.log(video);
-console.log(filename);
 
+var flag;
+var categoryFiltered = category.replace(category, function(matched){
+  return categoryMap2[matched];
+  });
 
-var filenameCompressed = "compression" + filename;
-
-    const newBox = new box({ title: title, comments: comments, description: descriptionFiltered, filename: filename, video: video, videoUrl: videoUrlVox, filenameCompressed: filenameCompressed, category: category, ip: ip, dados: dados});
+  var geo = geoip.lookup(ip);
+  if (geo == null) {
+       flag = "ar";
+     }
+     else {
+          flag = geo.country;
+        }
+    const newBox = new box({ title: title, comments: comments, description: descriptionFiltered, filename: filename, video: video, videoUrl: videoUrlVox, filenameCompressed: filenameCompressed, category: category, ip: ip, dados: dados, flag: flag, categoryFiltered: categoryFiltered});
     await newBox.save();
     res.redirect("/");
 
@@ -136,19 +213,18 @@ var filenameCompressed = "compression" + filename;
 
 router.get("/", async (req, res) =>{
    var boxs = await box.find().sort({updatedDate: "desc", });
-   boxs.forEach((boxs, i) => {
-     boxs.date2 = moment( boxs.date).fromNow();
-   });
+
     res.render("anuncios/allBoxs", { boxs });
-
-
-    //ffmpeg -ss "$screenshot_time" -i $(youtube-dl -f 22 --get-url "$youtube_url") -vframes 1 -q:v 2 "$output_file"
 });
-
+router.get("/error", async (req, res) =>{
+   var boxs = await box.find().sort({updatedDate: "desc", });
+   var errors = []
+   errors.push ({text: "Mail o contraseña incorrectos"});
+    res.render("anuncios/allBoxs", { boxs, errors });
+});
 router.get("/voxCategory/:category", async (req, res) =>{
     const boxs = await box.find({category: req.params.category}).sort({updatedDate: "desc", });
-
-
+    res.render("anuncios/allBoxs", { boxs });
 });
 
 router.get("/voxSearch/:title", async (req, res) =>{
@@ -173,72 +249,14 @@ router.get("/vox/:id",async (req, res) => {
     const box2 = await box.findById(req.params.id);
     const filteredComment = await comment.find({image_id: req.params.id}).sort({date: "desc", });
 
+filteredComment.forEach((item, i) => {
+  filteredComment[i].date2 = moment(filteredComment[i].date).fromNow();
+});
 
 
-
-
-      var ip = box2.ip;
-      var geo = geoip.lookup(ip);
-      if (geo == null) {
-           box2.flag = "ar";
-         }
-         else {
-              box2.flag = geo.country;
-            }
-
- var categoryMap2 = {
-   "ANM" : "Anime",
-   "ART" : "ART",
-   "AUT" : "Autos",
-   "CIE" : "Ciencia",
-   "CNJ" : "Consejos",
-   "CYTV" : "Cine Y TV",
-   "DEP" : "Deportes",
-   "DES" : "Descargas",
-   "ECO" : "Economia",
-   "GMR" : "Juegos",
-   "HIS" : "Hispanos",
-   "HIS" : "Historias",
-   "HMR" : "Humor",
-   "HUM" : "Humanidades",
-   "INT" : "Internacional",
-   "ITA" : "Italiani",
-   "LIT" : "Literatura",
-   "LUG" : "Lugares",
-   "MUS" : "Musica",
-   "NOT" : "Noticias",
-   "OFF" : "General",
-   "OMN" : "Omniverso",
-   "PAR" : "Paranormal",
-   "POL" : "Politica",
-   "PRG" : "Preguntas",
-   "PRG" : "Preguntas",
-   "SMFG" : "Samefag",
-   "TEC" : "Tecnologia",
-   "UFF" : "Random",
-   "UMA" : "Gastronomia",
-   "WEBM" : "WEBM",
-   "YTB" : "Youtube",};
-
-box2.categoryFiltered = box2.category.replace(box2.category, function(matched){
-   return categoryMap2[matched];
-   });
       box2.date2 = moment( box2.date).fromNow();
 
-    filteredComment.forEach((filteredComment, i) => {
-      var ipComment = filteredComment.commentIp;
-      var geoComment = geoip.lookup(ipComment);
-      if (geoComment == null) {
-           filteredComment.flag = "ar";
-           console.log(geoComment);
-         }
-         else {
-              filteredComment.flag = geoComment.country;
-              console.log(geoComment.country);
 
-            }
-            filteredComment.date2 = moment( filteredComment.date).fromNow();
-  });
 // ====> tengo que poner las banderas y categorias directamente en la DB
 
 
@@ -320,66 +338,119 @@ router.get("/vox/:id/comment/img/:filename", async (req, res) =>{
 });
 
 
-router.post("/vox/:id/comment", async(req, res) =>{
+router.post("/vox/:id/comment", multerUpload.single("imgUrl2"), async(req, res) =>{
   const box2 = await box.findById(req.params.id);
   const comments = (box2.comments += 1);
-
-if (comments >= 700) {
-  await box.findByIdAndUpdate({ _id: box2._id },
-    { comments: comments});
-} else {
-  await box.findByIdAndUpdate({ _id: box2._id },
-    {updatedDate: Date.now(), comments: comments});
-}
-
+console.log(req.body.imgUrl2);
+console.log(req.file);
     if (box2) {
+
+
+
    var { comentario }= req.body;
    var comentario2 = req.body.comentario;
-   comentario2 = '\n' + comentario2 + '\r'
+   var errors = [];
+   var videoUrl = req.body.videoUrl
+   var video;
+   var videoUrlVox;
+ if (req.file == undefined) {
+   if (videoUrl != '') {
+     const videoReplace= /^(https\:\/\/www.youtube.com\/watch\?v=)/g;
+     videoUrlExport = videoUrl.replace(videoReplace, '');
 
-
-   var mapObj = {
-      '\n>':"\n <b class='greentext'> >",
-      '\r':"</b> \r",
-   };
-
-      function nl2br(str){
-   var rgx = /(\n>)|(\r)/g;
-   var str =  str.replace(rgx, function(matched){
-     return mapObj[matched];
-     return str;
-   });
-    var str =  str.replace(/((>>)(http|https|ftp):\/\/[\w?=&.\/-;#~%-]+(?![\w?&.\/;#~%"=-]*>))/g, "<a href='$1'> $1 </a>").replace(/href='>>/g, "href='");
-       str = str.replace(/((>>)[\w?=&.\/-;#~%-]+(?![\w?&.\/;#~%"=-]*>))/g, "<a href='#$1'  onmouseout='tagScriptOut$1()' onmouseover='tagScript$1()'> $1 </a>").replace(/#>>/g, '#').replace(/tagScript>>/g, 'tagScript').replace(/tagScriptOut>>/g, 'tagScriptOut').replace(/#http/g, 'http');
-      str = str.replace(/(?:\r\n|\r)/g, '<br>');
-    return str;
+       if (videoUrl == videoUrlExport) {
+         errors.push({text: "El video no existe"})
+     } else {
+       var filename = videoUrlExport.substring(0, 11);
+       var filenameCompressed = videoUrlExport.substring(0, 11);
+       video = true;
+       videoUrlVox = true;
+     }
    }
-   var comentario=nl2br(comentario2);
-   var name; if (req.isAuthenticated()) {//     const name = req.user.name;              Para tener el nombre de usuario    <------------
-      name = "Anonimo";   }  else { name = "Anonimo";    }
-   const image_id = req.params.id;
+ }
 
-   var numero = Math.floor(Math.random() * 112) + 1;
-   if (numero >= 1 && numero <= 25) {
-     numero = "avatarColoryellow"
-   }  else if (numero >= 26 && numero <= 50) {numero = "avatarColorred" }  else if (numero >= 51 && numero <= 75) {numero = "avatarColorgreen"}  else if (numero >= 76 && numero <= 100) {        numero = "avatarColorblue"  }  else if (numero >= 101 && numero <= 105) {        numero = "avatarColorMulti"  }  else if (numero == 106) {numero = "avatarColorBlack"  }  else if (numero == 107) {numero = "avatarColorWhite"  }else if (numero >= 108 && numero <= 112){  numero = "avatarColorInvertido"  }
-   var id = customId({});
-   var commentOp = false;
-   const forwarded = req.headers['x-real-ip']
-   const commentIp = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
-   if (box2.ip = commentIp) {
-     commentOp = true
+  else {
+    var  filename = req.file.filename;
+    var filenameCompressed = filename;
+     var extensionImg = filename.split('.').pop();
+     if (extensionImg == 'jpg' | extensionImg ==  'png' | extensionImg ==  'gif' | extensionImg ==  'jpeg' ) {
+       video = false;
+     } else if (extensionImg == 'webm' | extensionImg ==  'mp4') {
+       video = true;
+     }
+ }
+// Chequea si hay errores en el comentario ingresado
+
+   if(!comentario2) {
+     errors.push({text: "No ingresaste ningun texto"});
+   }
+   else if (comentario2.length > 1500) {
+     errors.push({text: "Solo se permiten 1500 caracteres por comentarios"});
+   }
+   if (errors.length > 0) {
+         const box2 = await box.findById(req.params.id);
+         const filteredComment = await comment.find({image_id: req.params.id}).sort({date: "desc", });
+
+           filteredComment.date2 = moment( filteredComment.date).fromNow();
+           box2.date2 = moment( box2.date).fromNow();
+         res.render("anuncios/viewBox", { box2, filteredComment, errors});
    }
 
-    var dados = Math.floor(Math.random() * 10);
 
-   const newCommentt = new comment({name: name, comentario: comentario, image_id: image_id, numero: numero, tagId: id, commentIp: commentIp, commentOp: commentOp, dado: dados});
-    await newCommentt.save();
 
-    res.redirect("/vox/" + image_id);
-  }
 
-});
+// Si no hay errores entonces sube el comentario
+
+
+
+
+
+   else {
+
+
+
+     if (comments >= 700) {
+       await box.findByIdAndUpdate({ _id: box2._id },
+         { comments: comments});
+     } else {
+       await box.findByIdAndUpdate({ _id: box2._id },
+         {updatedDate: Date.now(), comments: comments});
+     }
+     comentario2 = '\n' + comentario2 + '\r'
+     var comentario=nl2br(comentario2);
+         comentario = nl2br2(comentario);
+     var name; if (req.isAuthenticated()) {//     const name = req.user.name;              Para tener el nombre de usuario    <------------
+        name = "Anonimo";   }  else { name = "Anonimo";    }
+     const image_id = req.params.id;
+     var id = customId({});
+     const forwarded = req.headers['x-real-ip']
+     const commentIp = forwarded ? forwarded.split(/, /)[0] : req.connection.remoteAddress;
+     var numero = dado();
+     var flag;
+       var geoComment = geoip.lookup(commentIp);
+       if (geoComment == null) {
+            flag = "ar";
+          }
+          else {
+               flag = geoComment.country;
+             }
+
+if (!filename) {
+  const newCommentt = new comment({name: name, comentario: comentario, image_id: image_id, numero: numero, tagId: id, commentIp: commentIp, dado: Math.floor(Math.random() * 10), flag: flag});
+   await newCommentt.save();
+} else {
+  const newCommentt = new comment({filename: filename, video: video, videoUrl: videoUrlVox, name: name, comentario: comentario, image_id: image_id, numero: numero, tagId: id, commentIp: commentIp, dado: Math.floor(Math.random() * 10), flag: flag});
+   await newCommentt.save();
+}
+      res.redirect("/vox/" + image_id);
+   }
+ } else {
+   res.redirect("/");
+ }
+
+}
+
+);
 
 
 module.exports = router;

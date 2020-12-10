@@ -8,6 +8,7 @@
 
       <a href="/about" class=box id=inicio>        <div class="displayTags">
                 <div class="categoriaDisplay2 tagAmarilloCepillo">
+                  <div class="bordeVox">  </div>
                   <p>Ayuda y reglas</p>
                 </div>
 
@@ -21,16 +22,16 @@
   var voxTitle = [];
   var voxId = [];
   var voxCategory = [];
-  var voxDate2 = [];
   var voxComments = [];
   var voxFilename = [];
   {{#each boxs}}
   voxTitle.push("{{this.title}}")
   voxId.push("{{this.id}}")
-  voxCategory.push("{{this.category}}")
+  voxCategory.push(' <div class="bordeVox">  </div><div class="categoriaDisplay"><p>{{this.category}}</p></div> {{#ifCond this.dados true}}  <div class="bordeVox">  </div><i class="fas fa-dice noshadowicon"></i>{{else}}{{/ifCond}} {{#ifCond this.video true}}<div class="bordeVox">  </div><i class="fab fa-youtube noshadowicon"></i>{{else}}{{/ifCond}}')
+
+
   voxComments.push("{{this.comments}}")
-  voxDate2.push("{{this.date2}}")
-  voxFilename.push("{{#if this.filenameCompressed}}{{this.filenameCompressed}}{{else}}{{#if this.filename}}{{this.filename}}{{else}}voxerDefault.jpeg{{/if}}{{/if}}")
+  voxFilename.push({{#ifCond this.videoUrl true}}'https://i.ytimg.com/vi/{{this.filename}}/hqdefault.jpg' {{else}} {{#if this.filenameCompressed}} '/backgrounds/{{this.filenameCompressed}}' {{else}}'/backgrounds/{{this.filename}}' {{/if}} {{/ifCond}})
   {{/each}}
 
 
@@ -41,7 +42,7 @@
         if (voxTitle[i] == undefined) {
 
         } else {
-          document.getElementById("voxes").innerHTML += (        '<a href="/vox/' + voxId[i] +'" class="box" id="jijo' + voxId[i] +'" style=background-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.25)),url("/backgrounds/' + voxFilename[i] + '")> <div class="row-fluid"><div class="displayTags"><div class="categoriaDisplay"><p>' + voxDate2[i] +'</p></div><div class="bordeVox">  </div><div class="categoriaDisplay"><p>' + voxCategory[i] +'</p></div><div class="comment2vox"><i class="fas fa-comment commentvox"></i><p class="commentvox">' + voxComments[i] +'</p></div></div><div class="division"><div class="titulo row-fluid">' + voxTitle[i] +'</div></div> </div></a>');
+          document.getElementById("voxes").innerHTML += (        '<a href="/vox/' + voxId[i] +'" class="box" id="jijo' + voxId[i] +'" style=background-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.25)),url(' + voxFilename[i] + ')> <div class="row-fluid"><div class="displayTags">' + voxCategory[i] +'<div class="comment2vox"><i class="fas fa-comment commentvox"></i><p class="commentvox">' + voxComments[i] +'</p></div></div><div class="division"><div class="titulo row-fluid">' + voxTitle[i] +'</div></div> </div></a>');
         }
       };
     }
@@ -54,7 +55,7 @@ function loadVoxScroll() {
   for (var i = x1; i < x2; i++) {
     if (voxTitle[i] == undefined) {
     } else {
-      document.getElementById("voxes").innerHTML += (        '<a href="/vox/' + voxId[i] +'" class="box" id="jijo' + voxId[i] +'" style=background-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.25)),url("/backgrounds/' + voxFilename[i] + '")> <div class="row-fluid"><div class="displayTags"><div class="categoriaDisplay"><p>' + voxDate2[i] +'</p></div><div class="bordeVox">  </div><div class="categoriaDisplay"><p>' + voxCategory[i] +'</p></div><div class="comment2vox"><i class="fas fa-comment commentvox"></i><p class="commentvox">' + voxComments[i] +'</p></div></div><div class="division"><div class="titulo row-fluid">' + voxTitle[i] +'</div></div> </div></a>');
+      document.getElementById("voxes").innerHTML += (        '<a href="/vox/' + voxId[i] +'" class="box" id="jijo' + voxId[i] +'" style=background-image:linear-gradient(rgba(0,0,0,0),rgba(0,0,0,0.25)),url(' + voxFilename[i] + ')> <div class="row-fluid"><div class="displayTags"><div class="categoriaDisplay"><p>' + voxDate2[i] +'</p></div><div class="bordeVox">  </div><div class="categoriaDisplay"><p>' + voxCategory[i] +'</p></div><div class="comment2vox"><i class="fas fa-comment commentvox"></i><p class="commentvox">' + voxComments[i] +'</p></div></div><div class="division"><div class="titulo row-fluid">' + voxTitle[i] +'</div></div> </div></a>');
 
     }
   };

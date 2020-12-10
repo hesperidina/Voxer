@@ -77,13 +77,14 @@ width:60px;
 height:60px;
 bottom:40px;
 right:4000px;
-background-color:#ca8bcc;
-color:#FFF;
-border-radius:100px;
+background-color:#d7aa0e;
+color: white;
 text-align:center;
 z-index: -10;
-box-shadow: 10px 10px 20px rgba(0, 0, 0, 0.55);
+}
 
+.longitud2 {
+  margin-bottom:  10px !important;
 }
 
 html {
@@ -103,6 +104,9 @@ body {
   display: none;
   position: absolute;
       left: 70%;
+      top: 10px;
+      text-shadow: 2px 2px 1px rgba(0, 0, 0, 0.35);
+
 }
 .commentvox {
   display: none;
@@ -117,6 +121,7 @@ margin-right: 4px;
 .div-to-display {
     position: absolute;
     right: 100%;
+    align-items:center;
     max-width: 1000%;
     border: 1px solid white;
     border-radius: 5px;
@@ -226,6 +231,10 @@ box-shadow: 10px 10px 20px -4px rgba(0,0,0,0.15);
     width: 90vw;
     height: auto;
   }
+  .comment2vox {
+
+        top: 24px;
+  }
   .modal-content {
 margin-top: 50vw;
 margin-bottom: 50vw;
@@ -263,12 +272,19 @@ margin-bottom: 50vw;
 
   .float{
   z-index: 102;
-  height: 7vh;
+  height: 5vh;
   width: 7vh;
+  right:0px;
+  border-radius: 10px 0px 0px 10px;
+  transition: 1s;
   }
-
+  .hiddenMenu {
+    right: -110px !important;
+  }
   .my-float{
-  margin-top:3vh;
+  margin-top:1.7vh;
+  color: white;
+  font-size: 24px;
   }
 
   .jijo {

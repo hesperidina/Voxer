@@ -15,7 +15,7 @@
       <div class=" barra2 barraCategory">
 
                           <div class=" textoBarra perfil">
-                               <p class="perfiltext">{{box2.categoryFiltered}}</p>
+                               <p class="perfiltext"><a href="/voxCategory/{{box2.category}}">{{box2.categoryFiltered}}</a></p>
 
                               <div class="aaaa23"></div>
 
@@ -91,20 +91,27 @@
 
 </div>
 
+
+
         <article class="anuncioBox">
                                 <figure class="imagen2">
                     <div class=" imagen">
-                        <a href="/vox/{{box2.id}}/comment/img/{{box2.filename}}" >
+
                           {{#ifCond box2.video true}}
                           {{#ifCond box2.videoUrl true}}
-                          <iframe src="{{box2.filename}}"></iframe>
+                          <a href="https://www.youtube.com/watch?v={{box2.filename}}" >
+                          <iframe src="https://www.youtube.com/embed/{{box2.filename}}"></iframe>
+                          <p class="boxfile" >https://www.youtube.com/watch?v={{box2.filename}}</p>
+                          </a>
                           {{else}}
                           <iframe src="/backgrounds/{{box2.filename}}"></iframe>
                           {{/ifCond}}
                           {{else}}
+                          <a href="/vox/{{box2.id}}/comment/img/{{box2.filename}}" >
                             <img src="/backgrounds/{{box2.filename}}">
+                          </a>
                             {{/ifCond}}
-                        </a>
+
                                                                                 </div>
                                     </figure>
                                 <header class="texto">
@@ -118,13 +125,16 @@
     <div class="rightside" id="divvox">
 
       <div class="barra2 form-group aeae2">
-        <form action="/vox/{{box2.id}}/comment" method="post">
+        <form action="/vox/{{box2.id}}/comment" method="post" enctype="multipart/form-data">
           <div class="barra">
                     <div class="textoBarra aeae">
                         <div class="barra"> <textarea name="comentario" rows="6" cols="80" class="aeae23 textarea2" id="message" placeholder="Escribi un comentario."></textarea>
+              <div class="distancia" id="imagePreview2"></div>
                         </div>
                     </div>
-                <button type="submit" class="btn btn1" id="send" >Comentar</button><button class="btn btn1" > <i class="fas fa-upload"></i> </button>
+                    <input type="file" id="fileComment" hidden="hidden" name="imgUrl2" onchange="return fileValidation2()">
+                    <input type="text" name="videoUrl" hidden="hidden" id="videoUpload">
+                <button type="submit" class="btn btn1" id="send" >Comentar</button><span class="btn btn1" id="btnUpload"><i class="fas fa-upload"></i> </span><span class="btn btn1" id="btnUpload2"><i class="fas fa-link"></i></span>
             </div>
         </form>
 
@@ -141,14 +151,16 @@
 
       </div>
       {{#each filteredComment}}
-      <div class=commentList id=commentList> <div class='commentvox'><div class=commentAvatar> {{#ifCond ../box2.dados false}}<div class="{{this.numero}} anonText"> ANON </div> {{else}}<div class="{{this.numero}} anonText dados"> {{this.dado}} </div>{{/ifCond}}  </div>
+      <div class=commentList id=commentList> <div class='commentvox'><div class=commentAvatar> {{#ifCond ../box2.dados false}}<div class="{{this.numero}} anonBox anonText"> ANON </div> {{else}}<div class="{{this.numero}} anonText dados"> {{this.dado}} </div>{{/ifCond}}  </div>
       <div class=commentBody><div class=commentMetadata><div class=commentsTag unselect>
         <span class=author>{{this.name}}</span> <p class="tagComment"  id="{{this.tagId}}">{{this.tagId}}</p> {{#ifCond ../box2.ip this.commentIp}}
   <p class="tagComment marginleftt">OP</p>
   {{else}}
   <p class="tagComment marginleftt">ANON</p>
   {{/ifCond}} <div class="flag"> <img src="/flagGif/{{this.flag}}.gif" alt=""></div>  </div> <div class="timeComment">{{this.date2}}</div> </div>
-      <div class=commentContent>{{{this.comentario}}}</div></div></div></div>
+      <div class=commentContent>                                  {{#if filename}}<figure class="imagen2 imagenComment"><span class=" imagen imagenComment2"> {{#ifCond this.video true}}{{#ifCond this.videoUrl true}}<a href="https://www.youtube.com/watch?v={{this.filename}}" ><iframe src="https://www.youtube.com/embed/{{this.filename}}"></iframe><p class="boxfile" >https://www.youtube.com/watch?v={{this.filename}}</p></a>{{else}}
+<iframe src="/backgrounds/{{this.filename}}"></iframe>{{/ifCond}}{{else}}<a href="/vox/{{this.id}}/comment/img/{{box2.filename}}" ><img src="/backgrounds/{{this.filename}}"></a>{{/ifCond}}</span> </figure> {{else}} {{/if}}
+        {{{this.comentario}}}</div></div></div></div>
 
       <script type="text/javascript">
       function tagScript{{this.tagId}}(a) {
@@ -180,6 +192,8 @@
 </div>
 
 <script type="text/javascript">
+
+{{#ifCond user.rank "admin"}}
 document.getElementById("voxDelete").onclick = function() {
   var form = document.forms["myForm"];
   swal({
@@ -239,12 +253,68 @@ document.getElementById("voxDelete").onclick = function() {
       break;
 
     default:
-      swal("Got away safely!");
+      swal("Ta bien");
   }
 });
-
-
-
 };
+{{else}}
+{{/ifCond}}
+
+document.getElementById("btnUpload2").addEventListener("click", function linkModal() {
+  swal({
+    title: 'Ingresa el link del video',
+    text: 'Por ahora solo se soportan videos de Youtube',
+    content: "input",
+    button: {
+      text: "Subir",
+      closeModal: false,
+    },
+  })
+  .then(name => {
+    var name2 = name.replace(/^(https\:\/\/www.youtube.com\/watch\?v=)/g, "");
+    if (!name) {
+      swal({
+        title: 'No ingresaste ningun texto',
+icon: "error",
+      })
+    } else if (name2 == name) {
+      swal({
+        title: 'Asegurate de subir un video de Youtube',
+        text: "Tiene que contener lo siguiente: https://www.youtube.com",
+icon: "error",
+      })
+    }
+    else {
+      name2 = name2.substring(0, 11);
+      $("#videoUpload").val(name);
+      document.getElementById('imagePreview2').innerHTML = '<iframe src="https://www.youtube.com/embed/'+ name2 +'"></iframe>';
+      swal.close();
+    }
+  });
+});
+
+document.getElementById("btnUpload").addEventListener("click", function(){
+document.getElementById("fileComment").click();
+})
+function fileValidation2(){
+var fileInput = document.getElementById('fileComment');
+var filePath = fileInput.value;
+var allowedExtensions = /(.jpg|.jpeg|.png|.gif|.webm|.mp4)$/i;
+if(!allowedExtensions.exec(filePath)){
+  swal('Archivo no soportado.', 'Podes subir los siguientes formator de archivos .jpeg / .jpg / .png / .gif / .mp4 / .webm' , 'error');
+
+    fileInput.value = '';
+    return false;
+}else{
+    //Image preview
+    if (fileInput.files && fileInput.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('imagePreview2').innerHTML = '<img src="'+e.target.result+'"/>';
+        };
+        reader.readAsDataURL(fileInput.files[0]);
+    }
+}
+}
 </script>
               <script type="text/javascript" src="/js/chat.js"></script>
