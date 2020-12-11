@@ -355,9 +355,9 @@ function searchModal() {
           <h3 class="modal-title">Registro</h3>
 
         </div>
-        <form action="/" method="POST">
+        <form action="/anonAuth" method="POST" id="formCaptcha">
           <div class="form-group">
-            <input type="text" class="form-control" name="name" placeholder="Nombre de usuario" value={{name}} >
+            <input type="text" class="form-control" id="nameCaptcha" name="name" placeholder="Nombre de usuario" value={{name}} >
 
           </div>
           <div class="form-group">
@@ -373,10 +373,32 @@ function searchModal() {
             <input type="password" class="form-control" name="confirmPassword" placeholder="Confirmar Contraseña" >
 
           </div>
+                <div class="g-recaptcha" name="captcha" data-sitekey="6LdElwEaAAAAAAFFljKBKBV5EnIyOHvp16DyAEwz"></div>
           <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
           </div>
         </form>
+
+<script type="text/javascript">
+document.getElementById("formCaptcha").addEventListener("submit",
+submitForm);
+function submitForm(e) {
+  e.preventDefault();
+  const captcha = document.querySelector("#g-recaptcha-response").value;
+
+fetch("/anonAuth", {
+  method: 'POST',
+  headers: {
+    'Accept': "application/json, text/plain, */*",
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({"captcha": captcha})
+})
+.then((res) => res.json())
+.then((data) => {swal(data.text);})
+}
+</script>
+
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
         </div>

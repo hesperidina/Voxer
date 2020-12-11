@@ -20,9 +20,6 @@ const fs = require("fs");
 const sharp = require('sharp');
 const moment = require("moment");
 moment.locale('es');
-
-
-
 var mapObj = {
    '\n>':"\n <b class='greentext'> >",
    '\r':"</b> \r",

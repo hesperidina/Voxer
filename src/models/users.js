@@ -7,6 +7,7 @@ const UserSchema = new Schema({
   email: {type: String},
   password: {type: String},
   date: {type: Date, default: Date.now},
+  anonymous: {type: Boolean, default: true},
   rank: {type: String, default: "anon"}
 
 });

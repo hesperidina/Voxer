@@ -17,6 +17,7 @@
 		"@ffmpeg-installer/ffmpeg": "^1.0.20",
 		"@handlebars/allow-prototype-access": "^1.0.3",
 		"bcryptjs": "^2.4.3",
+		"body-parser": "^1.19.0",
 		"connect-flash": "^0.1.1",
 		"express": "^4.17.1",
 		"express-handlebars": "^4.0.4",
@@ -33,6 +34,9 @@
 		"multer": "^1.4.2",
 		"nanoid": "^3.1.18",
 		"passport": "^0.4.1",
+		"passport-anonym-uuid": "^1.0.3",
+		"passport-anonymous": "^1.0.1",
+		"passport-http": "^0.3.0",
 		"passport-local": "^1.0.0",
 		"socket.io": "^2.3.0",
 		"timeago.js": "^4.0.2"

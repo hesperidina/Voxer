@@ -4,7 +4,7 @@ const path = require("path");
 const CommentSchema = new Schema({
   image_id: { type: String },
   name: { type: String },
-  filename: {type: String, required: true},
+  filename: {type: String },
   video: {type: Boolean, default: false, required: true},
   videoUrl: {type: Boolean, default: false, required: true},
   comentario: { type: String, required: true},
